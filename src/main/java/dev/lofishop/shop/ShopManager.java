@@ -2,6 +2,7 @@ package dev.lofishop.shop;
 
 import dev.lofishop.LofiShop;
 import dev.lofishop.util.ItemUtil;
+import dev.lofishop.util.NbtMatcher;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -157,6 +158,16 @@ public class ShopManager {
     }
 
     private ItemStack loadItemStack(ConfigurationSection sec) {
+        // Prefer base64-serialized item data (captures full PDC for custom items)
+        String base64 = sec.getString("item-data");
+        if (base64 != null && !base64.isBlank()) {
+            ItemStack deserialized = NbtMatcher.fromBase64(base64);
+            if (deserialized != null) return deserialized;
+            plugin.getLogger().warning("Failed to deserialize item-data in section '"
+                    + sec.getName() + "', falling back to material.");
+        }
+
+        // Vanilla item fallback: material + name + lore + custom model data
         String matName = sec.getString("material", "STONE").toUpperCase();
         Material material;
         try {

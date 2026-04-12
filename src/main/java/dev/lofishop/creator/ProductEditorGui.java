@@ -2,6 +2,8 @@ package dev.lofishop.creator;
 
 import dev.lofishop.LofiShop;
 import dev.lofishop.util.ItemUtil;
+import dev.lofishop.util.NbtMatcher;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,13 +79,32 @@ public class ProductEditorGui {
     }
 
     public void populate(Inventory inv) {
-        // Item slot
+        // Item slot — if a custom plugin item is present, append detection info to lore
         if (draft.getItem() != null) {
-            inv.setItem(SLOT_ITEM, draft.getItem());
+            ItemStack displayItem = draft.getItem();
+            String detectedPlugin = NbtMatcher.detectPlugin(displayItem);
+            String pdcSummary     = NbtMatcher.pdcSummary(displayItem);
+            if (detectedPlugin != null || !pdcSummary.equals("none")) {
+                List<Component> extraLore = new ArrayList<>();
+                MiniMessage mm = MiniMessage.miniMessage();
+                extraLore.add(mm.deserialize(""));
+                extraLore.add(mm.deserialize("<dark_gray>── Item Data ──"));
+                if (detectedPlugin != null) {
+                    extraLore.add(mm.deserialize("<gray>Plugin: <aqua>" + detectedPlugin));
+                }
+                if (!pdcSummary.equals("none")) {
+                    extraLore.add(mm.deserialize("<gray>PDC: <white>" + pdcSummary));
+                }
+                extraLore.add(mm.deserialize("<dark_gray>Full data captured automatically."));
+                displayItem = ItemUtil.appendLore(displayItem, extraLore);
+            }
+            inv.setItem(SLOT_ITEM, displayItem);
         } else {
             inv.setItem(SLOT_ITEM, ItemUtil.buildItem(Material.LIME_STAINED_GLASS_PANE,
                     "<green>Drag your item here",
-                    List.of("<gray>This is what will be bought/sold.")));
+                    List.of("<gray>This is what will be bought/sold.",
+                            "<gray>Custom plugin items are supported —",
+                            "<gray>drag the exact item from your inventory.")));
         }
 
         // Controls

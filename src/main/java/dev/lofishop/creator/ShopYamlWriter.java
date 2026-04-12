@@ -2,8 +2,7 @@ package dev.lofishop.creator;
 
 import dev.lofishop.LofiShop;
 import dev.lofishop.util.MessageUtil;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import dev.lofishop.util.NbtMatcher;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -52,18 +51,19 @@ public final class ShopYamlWriter {
         for (ProductDraft draft : session.getProducts()) {
             String base = "products." + draft.getKey();
 
-            // Item
+            // Item — serialize the full item bytes so custom plugin items
+            // (MMOItems, Oraxen, ItemsAdder, etc.) reload with all PDC intact.
             ItemStack item = draft.getItem();
             if (item != null) {
+                String base64 = NbtMatcher.toBase64(item);
+                if (base64 != null) {
+                    cfg.set(base + ".item.item-data", base64);
+                }
+                // Also store material as a human-readable hint (not used for loading
+                // when item-data is present, but helpful for manual YAML inspection).
                 cfg.set(base + ".item.material", item.getType().name());
 
                 ItemMeta meta = item.getItemMeta();
-                if (meta != null && meta.hasDisplayName()) {
-                    String displayName = PlainTextComponentSerializer.plainText()
-                            .serialize(meta.displayName());
-                    cfg.set(base + ".item.name", "<white>" + displayName);
-                }
-
                 if (meta != null && meta.hasCustomModelData()) {
                     cfg.set(base + ".item.custom-model-data", meta.getCustomModelData());
                 }

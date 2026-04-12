@@ -65,28 +65,20 @@ public final class ItemUtil {
     }
 
     /**
-     * Simple item matching by material type.
-     * Can be extended to match by custom model data, NBT, or display name.
+     * Matches a player's item against a shop product template.
+     *
+     * Delegates entirely to {@link NbtMatcher#matches} which handles:
+     *   - Vanilla items  → material [+ custom model data]
+     *   - Plugin items   → material + all PDC keys from the template
+     *
+     * The template is whatever item was placed in the shop creator or
+     * deserialized from the `item-data` base64 field in YAML.
      */
-    public static boolean matches(ItemStack a, ItemStack b) {
-        if (a == null || b == null) return false;
-        if (a.getType() != b.getType()) return false;
-
-        // Match custom model data if set
-        ItemMeta metaA = a.getItemMeta();
-        ItemMeta metaB = b.getItemMeta();
-        if (metaA != null && metaB != null) {
-            if (metaA.hasCustomModelData() && metaB.hasCustomModelData()) {
-                return metaA.getCustomModelData() == metaB.getCustomModelData();
-            }
-            // If only one has CMD, they don't match
-            if (metaA.hasCustomModelData() != metaB.hasCustomModelData()) return false;
-        }
-
-        return true;
+    public static boolean matches(ItemStack playerItem, ItemStack template) {
+        return NbtMatcher.matches(playerItem, template);
     }
 
-    /** Creates a named divider/spacer item (invisible name). */
+    /** Creates a named divider/spacer item. */
     public static ItemStack divider(Material material) {
         return buildItem(material, "<gray>─────────────────", List.of());
     }
