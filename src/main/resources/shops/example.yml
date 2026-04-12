@@ -1,0 +1,237 @@
+# LofiShop - Example Shop Config
+# Each file in the shops/ folder is loaded as a separate shop.
+# The file name (without .yml) is the shop ID used in commands.
+
+# Display name (MiniMessage)
+shop-name: "<gold>Example Shop"
+
+# Menu title (MiniMessage)
+title: "<dark_gray>[ <gold>Example Shop</gold> ]"
+
+# Number of rows (1-6)
+rows: 6
+
+# Permission required to open (leave blank for none)
+open-permission: ""
+
+# Menu layout - use product IDs or special keys:
+#   FILLER  = background filler item
+#   BACK    = back button (used in sub-menus)
+#   NEXT    = next page button
+#   PREV    = previous page button
+layout:
+  - "F F F F F F F F F"
+  - "F d F i F g F l F"
+  - "F F F F F F F F F"
+  - "F e F r F s F c F"
+  - "F F F F F F F F F"
+  - "F F F F F F F F F"
+
+products:
+  # Product key maps to layout character
+  d:
+    # Display item
+    item:
+      material: DIAMOND
+      name: "<aqua><bold>Diamond"
+      lore:
+        - "<gray>A rare and valuable gem."
+        - ""
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    # Buy prices (supports multiple currencies)
+    buy-price:
+      - type: vault
+        amount: 250.0
+    # Sell prices
+    sell-price:
+      - type: vault
+        amount: 100.0
+    # Default single-click amount (used when no tiers defined)
+    amount: 1
+    # Quantity tiers — clicking opens a picker sub-menu showing each option.
+    # Price per tier = buy/sell-price * quantity. Remove to buy/sell directly.
+    buy-amounts: [1, 8, 16, 32, 64]
+    sell-amounts: [1, 8, 16, 32, 64]
+    # Limits
+    limits:
+      # Personal buy limit (-1 = unlimited)
+      personal-buy: 64
+      # Personal sell limit (-1 = unlimited)
+      personal-sell: -1
+      # Global buy limit (-1 = unlimited)
+      global-buy: -1
+      # Global sell limit (-1 = unlimited)
+      global-sell: -1
+      # Reset type: NEVER, DAILY, WEEKLY, CRON
+      reset: DAILY
+      # Cron expression (only used if reset: CRON)
+      # cron: "0 0 * * MON"
+    # Actions on buy (supports: [message], [command], [console], [sound], [title], [actionbar])
+    actions:
+      buy:
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+        - "[message] <green>Thanks for buying a diamond!"
+      sell:
+        - "[sound] ENTITY_COIN_INSERT"
+    # Conditions required to buy/sell (supports: [permission], [money], [level], [placeholder])
+    conditions:
+      buy: []
+      sell: []
+
+  i:
+    item:
+      material: IRON_INGOT
+      name: "<white>Iron Ingot"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 20.0
+    sell-price:
+      - type: vault
+        amount: 8.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  g:
+    item:
+      material: GOLD_INGOT
+      name: "<gold>Gold Ingot"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 45.0
+    sell-price:
+      - type: vault
+        amount: 18.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  l:
+    item:
+      material: LAPIS_LAZULI
+      name: "<blue>Lapis Lazuli"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 4.0
+    amount: 4
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  e:
+    item:
+      material: EMERALD
+      name: "<green>Emerald"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 150.0
+    sell-price:
+      - type: vault
+        amount: 60.0
+    amount: 1
+    limits:
+      personal-buy: 32
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: WEEKLY
+
+  r:
+    item:
+      material: REDSTONE
+      name: "<red>Redstone Dust"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 8
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  s:
+    item:
+      material: NETHERITE_SCRAP
+      name: "<dark_gray>Netherite Scrap"
+      lore:
+        - "<gray>Rare nether material."
+        - ""
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 1000.0
+    sell-price:
+      - type: vault
+        amount: 400.0
+    amount: 1
+    limits:
+      personal-buy: 4
+      personal-sell: -1
+      global-buy: 100
+      global-sell: -1
+      reset: DAILY
+    conditions:
+      buy:
+        - "[permission] lofishop.vip"
+
+  c:
+    item:
+      material: COAL
+      name: "<dark_gray>Coal"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 3.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 8
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+# Filler item override for this shop (optional)
+filler:
+  material: BLACK_STAINED_GLASS_PANE
+  name: " "

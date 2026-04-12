@@ -1,0 +1,61 @@
+# LofiShop Configuration
+# MiniMessage format is used for all text (https://docs.advntr.dev/minimessage)
+
+general:
+  # Default economy provider: vault, essentials
+  economy: vault
+  # Currency symbol shown in menus
+  currency-symbol: "$"
+  # How many decimal places to show for prices
+  price-decimals: 2
+  # Allow selling from inventory to shop
+  sell-enabled: true
+  # Allow buying from shop
+  buy-enabled: true
+  # Log transactions to console
+  log-transactions: true
+
+limits:
+  # Storage type: yaml (more options planned)
+  storage: yaml
+  # Default reset time for DAILY limits (24h clock, server time)
+  daily-reset-time: "00:00"
+  # Default reset day for WEEKLY limits (MONDAY-SUNDAY)
+  weekly-reset-day: MONDAY
+
+sell-wand:
+  # Name of the sell wand item shown to players
+  name: "<gold><bold>Sell Wand"
+  # Lore lines
+  lore:
+    - "<gray>Right-click a chest to"
+    - "<gray>sell its contents automatically."
+  # Material of the sell wand
+  material: BLAZE_ROD
+  # Whether sell wand is consumed on use
+  consume-on-use: false
+  # Max uses before the wand breaks (-1 = infinite)
+  max-uses: -1
+
+quick-sell:
+  # Title of the quick-sell menu
+  title: "<dark_gray>Quick Sell"
+  # Number of rows (1-6)
+  rows: 4
+  # Slot for the confirm button
+  confirm-slot: 31
+  # Slot for the cancel button
+  cancel-slot: 29
+
+menus:
+  # Default background filler item for menus
+  filler-material: GRAY_STAINED_GLASS_PANE
+  filler-name: " "
+  # Whether to show buy/sell prices in item lore automatically
+  auto-price-lore: true
+  # Whether to show limit info in item lore automatically
+  auto-limit-lore: true
+
+placeholders:
+  # Requires PlaceholderAPI
+  enabled: true

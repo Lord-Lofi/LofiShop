@@ -1,0 +1,208 @@
+# LofiShop - Admin Shop Example
+# admin-shop: true means:
+#   • Infinite stock — buying never requires physical items in a chest
+#   • All buy/sell limits are bypassed for this shop
+#   • Players still need economy balance to purchase
+#   • Great for server resource shops that never need restocking
+
+shop-name: "<dark_purple>Admin Shop"
+title: "<dark_gray>[ <dark_purple>Admin Shop</dark_purple> ]"
+rows: 6
+admin-shop: true
+
+# Optional: restrict who can open this shop
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "F d F i F g F e F"
+  - "F F F F F F F F F"
+  - "F n F o F c F l F"
+  - "F F F F F F F F F"
+  - "F F F F F F F F F"
+
+products:
+  d:
+    item:
+      material: DIAMOND
+      name: "<aqua><bold>Diamond"
+      lore:
+        - "<gray>Infinite stock."
+        - ""
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 250.0
+    sell-price:
+      - type: vault
+        amount: 100.0
+    amount: 1
+    # No limits needed — admin-shop bypasses them anyway
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+      sell:
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  i:
+    item:
+      material: IRON_INGOT
+      name: "<white>Iron Ingot"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 20.0
+    sell-price:
+      - type: vault
+        amount: 8.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  g:
+    item:
+      material: GOLD_INGOT
+      name: "<gold>Gold Ingot"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 45.0
+    sell-price:
+      - type: vault
+        amount: 18.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  e:
+    item:
+      material: EMERALD
+      name: "<green>Emerald"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 150.0
+    sell-price:
+      - type: vault
+        amount: 60.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  n:
+    item:
+      material: NETHERITE_INGOT
+      name: "<dark_gray><bold>Netherite Ingot"
+      lore:
+        - "<gray>The rarest material."
+        - ""
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 5000.0
+    sell-price:
+      - type: vault
+        amount: 2000.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    conditions:
+      buy:
+        - "[permission] lofishop.open.admin"
+
+  o:
+    item:
+      material: OBSIDIAN
+      name: "<dark_purple>Obsidian"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 8
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  c:
+    item:
+      material: COBBLESTONE
+      name: "<gray>Cobblestone"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 0.5
+    sell-price:
+      - type: vault
+        amount: 0.1
+    amount: 64
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+  l:
+    item:
+      material: OAK_LOG
+      name: "<dark_green>Oak Log"
+      lore:
+        - "<yellow>Buy: <gold>{buy_price}"
+        - "<yellow>Sell: <gold>{sell_price}"
+    buy-price:
+      - type: vault
+        amount: 8.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 16
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+
+filler:
+  material: PURPLE_STAINED_GLASS_PANE
+  name: " "

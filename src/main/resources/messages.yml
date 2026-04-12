@@ -1,0 +1,48 @@
+# LofiShop Messages
+# MiniMessage format supported throughout.
+# Available placeholders: {player}, {item}, {amount}, {price}, {currency}, {shop}
+
+prefix: "<dark_gray>[<gradient:gold:yellow>LofiShop</gradient>]</dark_gray> "
+
+# Shop open/close
+shop-opened: "{prefix}<green>Opened shop <white>{shop}<green>."
+shop-not-found: "{prefix}<red>Shop <white>{shop}</white> not found."
+no-permission: "{prefix}<red>You don't have permission to do that."
+
+# Transactions
+buy-success: "{prefix}<green>You bought <white>x{amount} {item}</white> for <gold>{price} {currency}</gold>."
+sell-success: "{prefix}<green>You sold <white>x{amount} {item}</white> for <gold>{price} {currency}</gold>."
+buy-failed-money: "{prefix}<red>You don't have enough <gold>{currency}</gold>. Need <white>{price}</white>."
+sell-failed-no-item: "{prefix}<red>You don't have <white>{item}</white> to sell."
+buy-disabled: "{prefix}<red>Buying is currently disabled."
+sell-disabled: "{prefix}<red>Selling is currently disabled."
+product-not-buyable: "{prefix}<red>This product cannot be bought."
+product-not-sellable: "{prefix}<red>This product cannot be sold."
+
+# Limits
+buy-limit-reached: "{prefix}<red>You've reached your buy limit for <white>{item}</white>."
+sell-limit-reached: "{prefix}<red>You've reached your sell limit for <white>{item}</white>."
+global-buy-limit-reached: "{prefix}<red>The global buy limit for <white>{item}</white> has been reached."
+global-sell-limit-reached: "{prefix}<red>The global sell limit for <white>{item}</white> has been reached."
+limit-resets-in: "<gray>Resets in: <white>{time}</gray>"
+
+# Sell wand
+sellwand-given: "{prefix}<green>Sell wand given to <white>{player}</white>."
+sellwand-use: "{prefix}<green>Sold <white>x{amount}</white> items from chest for <gold>{price} {currency}</gold>."
+sellwand-empty: "{prefix}<yellow>The chest had no sellable items."
+sellwand-no-chest: "{prefix}<red>Right-click a chest to use the sell wand."
+sellwand-broken: "{prefix}<red>Your sell wand has broken."
+
+# Quick sell
+quicksell-title: "<dark_gray>Quick Sell"
+quicksell-confirm: "<green><bold>Confirm Sale"
+quicksell-cancel: "<red><bold>Cancel"
+quicksell-total: "<gray>Total: <gold>{price} {currency}"
+quicksell-empty: "{prefix}<yellow>You have nothing sellable in your inventory."
+
+# Admin
+reload-success: "{prefix}<green>Configuration reloaded successfully."
+reload-failed: "{prefix}<red>Reload failed. Check console for errors."
+
+# Conditions
+condition-failed: "{prefix}<red>You do not meet the requirements for this action."

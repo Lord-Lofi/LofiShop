@@ -1,0 +1,143 @@
+name: LofiShop
+version: '${project.version}'
+main: dev.lofishop.LofiShop
+api-version: '1.21'
+description: A powerful, configurable shop plugin.
+authors: [ LofiShop ]
+website: https://github.com/Lord-Lofi/LofiShop
+
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - Essentials
+
+commands:
+  lofishop:
+    description: Main LofiShop command.
+    aliases: [ shop, ls ]
+    usage: /lofishop <open|list|reload|quicksell|give|help>
+    permission: lofishop.use
+  sellwand:
+    description: Give a sell wand to a player.
+    usage: /sellwand [player]
+    permission: lofishop.admin
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Permission Nodes
+#
+# These mirror UltimateShop's permission structure so existing LuckPerms
+# groups/tracks can be adapted with minimal changes.
+#
+# Hierarchy:
+#   lofishop.admin         → grants everything
+#   lofishop.use           → grants open, buy, sell, quicksell, sellwand.use
+#   lofishop.open          → open any shop (no per-shop restriction)
+#   lofishop.open.<shopId> → open a specific shop only
+#   lofishop.buy           → buy in any shop
+#   lofishop.buy.<shopId>  → buy in a specific shop only
+#   lofishop.buy.<shopId>.<productId> → buy a specific product only
+#   lofishop.sell          → sell in any shop
+#   lofishop.sell.<shopId> → sell in a specific shop
+#   lofishop.sell.<shopId>.<productId> → sell a specific product
+# ─────────────────────────────────────────────────────────────────────────────
+permissions:
+
+  # ── Wildcard / Admin ──────────────────────────────────────────────────────
+  lofishop.admin:
+    description: Full admin access — grants all LofiShop permissions.
+    default: op
+    children:
+      lofishop.use: true
+      lofishop.reload: true
+      lofishop.give.sellwand: true
+      lofishop.open: true
+      lofishop.open.*: true
+      lofishop.buy: true
+      lofishop.buy.*: true
+      lofishop.sell: true
+      lofishop.sell.*: true
+      lofishop.sellwand.use: true
+      lofishop.quicksell: true
+      lofishop.bypass.limits: true
+      lofishop.bypass.conditions: true
+
+  lofishop.use:
+    description: Base permission — grants standard player access.
+    default: true
+    children:
+      lofishop.open: true
+      lofishop.buy: true
+      lofishop.sell: true
+      lofishop.quicksell: true
+      lofishop.sellwand.use: true
+
+  # ── Command permissions ───────────────────────────────────────────────────
+  lofishop.reload:
+    description: Reload plugin configuration.
+    default: op
+
+  lofishop.give.sellwand:
+    description: Give a sell wand to a player via command.
+    default: op
+
+  # ── Shop open permissions ─────────────────────────────────────────────────
+  lofishop.open:
+    description: Open any shop (no per-shop restriction).
+    default: true
+
+  lofishop.open.*:
+    description: Wildcard — open all shops regardless of per-shop node.
+    default: op
+
+  # Per-shop open (add per shop in LuckPerms):
+  # lofishop.open.<shopId>
+  # Example: lofishop.open.example
+
+  # ── Buy permissions ───────────────────────────────────────────────────────
+  lofishop.buy:
+    description: Buy items in any shop.
+    default: true
+
+  lofishop.buy.*:
+    description: Wildcard — buy in all shops.
+    default: op
+
+  # Per-shop buy:  lofishop.buy.<shopId>
+  # Per-product:   lofishop.buy.<shopId>.<productId>
+
+  # ── Sell permissions ──────────────────────────────────────────────────────
+  lofishop.sell:
+    description: Sell items in any shop.
+    default: true
+
+  lofishop.sell.*:
+    description: Wildcard — sell in all shops.
+    default: op
+
+  # Per-shop sell:    lofishop.sell.<shopId>
+  # Per-product sell: lofishop.sell.<shopId>.<productId>
+
+  # ── Sell Wand ─────────────────────────────────────────────────────────────
+  lofishop.sellwand.use:
+    description: Use a sell wand on chests.
+    default: true
+
+  # ── Quick Sell ────────────────────────────────────────────────────────────
+  lofishop.quicksell:
+    description: Use the quick-sell inventory menu.
+    default: true
+
+  # ── Bypass permissions ────────────────────────────────────────────────────
+  lofishop.bypass.limits:
+    description: Bypass all buy/sell limits (daily, weekly, global, personal).
+    default: op
+
+  lofishop.bypass.conditions:
+    description: Bypass all product conditions (permission, money, level, placeholder).
+    default: op
+
+  # ── VIP / Rank example nodes (add to LuckPerms groups as needed) ──────────
+  # lofishop.open.vip-shop        → opens a shop named "vip-shop"
+  # lofishop.buy.vip-shop         → buy anything in vip-shop
+  # lofishop.sell.vip-shop        → sell anything in vip-shop
+  # lofishop.buy.example.s        → buy only the "s" product in example shop
