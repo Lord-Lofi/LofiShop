@@ -56,9 +56,10 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
             case "reload":       return handleReload(sender);
             case "quicksell":    return handleQuickSell(sender);
             case "give":         return handleGive(sender, args);
-            case "createblock":  return handleCreateBlock(sender, args);
-            case "removeblock":  return handleRemoveBlock(sender);
-            case "help":         return handleHelp(sender);
+            case "createblock":   return handleCreateBlock(sender, args);
+            case "removeblock":   return handleRemoveBlock(sender);
+            case "givecreator":   return handleGiveCreator(sender, args);
+            case "help":          return handleHelp(sender);
             default:             return handleOpen(sender, args);
         }
     }
@@ -170,6 +171,40 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    private boolean handleGiveCreator(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("lofishop.admin")) {
+            if (sender instanceof Player) plugin.getMessageConfig().send((Player) sender, "no-permission");
+            else sender.sendMessage("No permission.");
+            return true;
+        }
+
+        Player target = null;
+        if (args.length >= 2) {
+            target = plugin.getServer().getPlayer(args[1]);
+            if (target == null) {
+                sender.sendMessage(MessageUtil.parse("<red>Player '" + args[1] + "' not found."));
+                return true;
+            }
+        } else if (sender instanceof Player) {
+            target = (Player) sender;
+        }
+
+        if (target == null) {
+            sender.sendMessage("Usage: /shop givecreator [player]");
+            return true;
+        }
+
+        target.getInventory().addItem(plugin.getShopCreatorManager().createWand());
+        target.sendMessage(MessageUtil.parse(
+                "<gold>[LofiShop] <gray>You received a <gold>Shop Creator Wand<gray>. " +
+                "Right-click to open the creation wizard."));
+        if (sender != target) {
+            sender.sendMessage(MessageUtil.parse(
+                    "<gold>[LofiShop] <gray>Gave Shop Creator Wand to <white>" + target.getName() + "."));
+        }
+        return true;
+    }
+
     private boolean handleCreateBlock(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("This command can only be used by players.");
@@ -245,6 +280,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         if (player.hasPermission("lofishop.admin")) {
             player.sendMessage(MessageUtil.parse("<yellow>/shop reload <gray>— Reload configs"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop give sellwand [player] <gray>— Give sell wand"));
+            player.sendMessage(MessageUtil.parse("<yellow>/shop givecreator [player] <gray>— Give shop creator wand"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop createblock <shopId> <product> <gray>— Create block shop (look at block)"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop removeblock <gray>— Remove block shop (look at block)"));
         }
@@ -263,6 +299,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
             if (sender.hasPermission("lofishop.reload")) subs.add("reload");
             if (sender.hasPermission("lofishop.admin")) {
                 subs.add("give");
+                subs.add("givecreator");
                 subs.add("createblock");
                 subs.add("removeblock");
             }

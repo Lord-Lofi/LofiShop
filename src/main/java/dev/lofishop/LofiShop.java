@@ -5,6 +5,8 @@ import dev.lofishop.commands.LofiShopCommand;
 import dev.lofishop.commands.SellWandCommand;
 import dev.lofishop.config.ConfigManager;
 import dev.lofishop.config.MessageConfig;
+import dev.lofishop.creator.ShopCreatorListener;
+import dev.lofishop.creator.ShopCreatorManager;
 import dev.lofishop.display.BlockShopManager;
 import dev.lofishop.gui.MenuManager;
 import dev.lofishop.limit.LimitManager;
@@ -31,6 +33,7 @@ public final class LofiShop extends JavaPlugin {
     private MenuManager menuManager;
     private SellWandManager sellWandManager;
     private BlockShopManager blockShopManager;
+    private ShopCreatorManager shopCreatorManager;
 
     @Override
     public void onEnable() {
@@ -38,8 +41,8 @@ public final class LofiShop extends JavaPlugin {
 
         saveDefaultConfig();
 
-        configManager  = new ConfigManager(this);
-        messageConfig  = new MessageConfig(this);
+        configManager        = new ConfigManager(this);
+        messageConfig        = new MessageConfig(this);
 
         economyManager = new EconomyManager(this);
         if (!economyManager.setup()) {
@@ -48,13 +51,14 @@ public final class LofiShop extends JavaPlugin {
             return;
         }
 
-        limitManager      = new LimitManager(this);
-        shopManager       = new ShopManager(this);
-        menuManager       = new MenuManager(this);
-        sellWandManager   = new SellWandManager(this);
-        blockShopManager  = new BlockShopManager(this);
+        limitManager         = new LimitManager(this);
+        shopManager          = new ShopManager(this);
+        menuManager          = new MenuManager(this);
+        sellWandManager      = new SellWandManager(this);
+        blockShopManager     = new BlockShopManager(this);
+        shopCreatorManager   = new ShopCreatorManager(this);
 
-        // Register commands
+        // Commands
         PluginCommand shopCmd = getCommand("lofishop");
         if (shopCmd != null) {
             LofiShopCommand handler = new LofiShopCommand(this);
@@ -63,18 +67,17 @@ public final class LofiShop extends JavaPlugin {
         }
 
         PluginCommand wandCmd = getCommand("sellwand");
-        if (wandCmd != null) {
-            wandCmd.setExecutor(new SellWandCommand(this));
-        }
+        if (wandCmd != null) wandCmd.setExecutor(new SellWandCommand(this));
 
-        // Register listeners
+        // Listeners
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new MenuListener(this), this);
         pm.registerEvents(new SellWandListener(this), this);
         pm.registerEvents(new QuickSellListener(this), this);
         pm.registerEvents(new BlockShopListener(this), this);
+        pm.registerEvents(new ShopCreatorListener(this), this);
 
-        // Re-spawn ItemDisplay entities after world load
+        // Re-spawn block shop display entities 1 tick after worlds load
         getServer().getScheduler().runTaskLater(this, () ->
                 blockShopManager.respawnAll(), 20L);
 
@@ -89,7 +92,7 @@ public final class LofiShop extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (limitManager != null) limitManager.saveAll();
+        if (limitManager != null)    limitManager.saveAll();
         if (blockShopManager != null) blockShopManager.removeAllDisplays();
         getLogger().info("LofiShop disabled.");
     }
@@ -100,20 +103,20 @@ public final class LofiShop extends JavaPlugin {
         messageConfig.reload();
         shopManager.reload();
         limitManager.reload();
-        // Re-spawn displays after reload
         getServer().getScheduler().runTaskLater(this, () ->
                 blockShopManager.respawnAll(), 5L);
     }
 
     // ── Getters ───────────────────────────────────────────────────────────────
 
-    public static LofiShop getInstance()           { return instance; }
-    public ConfigManager getConfigManager()         { return configManager; }
-    public MessageConfig getMessageConfig()         { return messageConfig; }
-    public EconomyManager getEconomyManager()       { return economyManager; }
-    public ShopManager getShopManager()             { return shopManager; }
-    public LimitManager getLimitManager()           { return limitManager; }
-    public MenuManager getMenuManager()             { return menuManager; }
-    public SellWandManager getSellWandManager()     { return sellWandManager; }
-    public BlockShopManager getBlockShopManager()   { return blockShopManager; }
+    public static LofiShop getInstance()              { return instance; }
+    public ConfigManager getConfigManager()            { return configManager; }
+    public MessageConfig getMessageConfig()            { return messageConfig; }
+    public EconomyManager getEconomyManager()          { return economyManager; }
+    public ShopManager getShopManager()                { return shopManager; }
+    public LimitManager getLimitManager()              { return limitManager; }
+    public MenuManager getMenuManager()                { return menuManager; }
+    public SellWandManager getSellWandManager()        { return sellWandManager; }
+    public BlockShopManager getBlockShopManager()      { return blockShopManager; }
+    public ShopCreatorManager getShopCreatorManager()  { return shopCreatorManager; }
 }

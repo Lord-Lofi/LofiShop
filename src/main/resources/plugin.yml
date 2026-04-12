@@ -15,7 +15,7 @@ commands:
   lofishop:
     description: Main LofiShop command.
     aliases: [ shop, ls ]
-    usage: /lofishop <open|list|reload|quicksell|give|help>
+    usage: /lofishop <open|list|reload|quicksell|give|givecreator|createblock|removeblock|help>
     permission: lofishop.use
   sellwand:
     description: Give a sell wand to a player.
@@ -50,6 +50,7 @@ permissions:
       lofishop.use: true
       lofishop.reload: true
       lofishop.give.sellwand: true
+      lofishop.give.creator: true
       lofishop.open: true
       lofishop.open.*: true
       lofishop.buy: true
@@ -60,6 +61,7 @@ permissions:
       lofishop.quicksell: true
       lofishop.bypass.limits: true
       lofishop.bypass.conditions: true
+      lofishop.creator: true
 
   lofishop.use:
     description: Base permission — grants standard player access.
@@ -78,6 +80,14 @@ permissions:
 
   lofishop.give.sellwand:
     description: Give a sell wand to a player via command.
+    default: op
+
+  lofishop.give.creator:
+    description: Give the shop creator wand to a player.
+    default: op
+
+  lofishop.creator:
+    description: Use the shop creator wand to build shops in-game.
     default: op
 
   # ── Shop open permissions ─────────────────────────────────────────────────
