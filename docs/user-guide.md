@@ -241,35 +241,70 @@ rows: 6
 
 ## 5. Server Admin — Block Shops
 
-Block shops attach a shop to a physical block in the world, with a floating item displayed above it. Players right-click the block to open the shop.
+Block shops attach a shop product to a physical block in the world. A floating animated item rotates above it. Players right-click the block to interact.
+
+### Block Shop Modes
+
+Every block shop has a mode set at creation time:
+
+| Mode | Right-click behaviour | Best for |
+|---|---|---|
+| `FULL` | Opens the entire shop GUI — all products browsable | Category shops (ore shop, wood shop) — the block is the entrance |
+| `SMALL` | Opens a compact 3-row GUI: item in the centre, green Buy button left, red Sell button right | Dedicated vending-machine-style blocks |
+| `QUICK` | Instantly purchases the product's default amount — no GUI, feedback in chat | High-traffic impulse buys |
 
 ### Creating a Block Shop
 
+Look directly at a block and run:
+
 ```
-/lofishop createblock <shopId> <productKey>
+/lofishop createblock <shopId> <productKey> [FULL|SMALL|QUICK]
 ```
 
-Example — link the `d` product from the `example` shop to the block you're looking at:
+The mode defaults to `FULL` if omitted. Examples:
+
 ```
-/lofishop createblock example d
+# A slab that opens the full ore shop
+/lofishop createblock ore_shop d
+
+# A block that shows a single-product buy/sell panel for diamonds
+/lofishop createblock ore_shop d SMALL
+
+# A block that instantly buys 1 diamond on right-click
+/lofishop createblock ore_shop d QUICK
 ```
 
-The block you are **looking at** when you run the command becomes the shop block. A floating animated item (the product's display item) will appear above it.
+The floating item above the block always shows the linked product, regardless of mode.
 
 ### Removing a Block Shop
 
-Stand near the block and run:
+Look at the block and run:
 ```
 /lofishop removeblock
 ```
 
-Or break the block — if you have the `lofishop.admin` permission the block shop is automatically removed when the block is broken.
+Or break the block — if you have `lofishop.admin` the block shop is automatically cleaned up.
+
+### Citizens NPC Integration
+
+Any Citizens NPC can open a shop for the player who right-clicks it. In Citizens, add a **server command** to the NPC:
+
+```
+/shop open <shopId> %player_name%
+```
+
+Citizens resolves `%player_name%` to the interacting player's name before the command runs. The command executes as console, so no permission check applies and the shop opens for the correct player. This works with any shop mode — combine it with `FULL`, `SMALL`, or use separate blocks for different modes alongside the NPC.
+
+**Example Citizens NPC setup:**
+1. Create an NPC: `/npc create ShopKeeper`
+2. Add a command trigger: `/npc command add -p /shop open ore_shop %player_name%`
+3. Done — right-clicking the NPC opens the ore shop for whoever clicked.
 
 ### Notes
 
-- Block shops use an `ItemDisplay` entity — they survive chunk unloads and are re-spawned on server restart.
-- The displayed item rotates slowly above the block.
-- You can link any product from any loaded shop to a block.
+- Block shops persist across restarts via `blockshops.yml`. Display entities are re-spawned 20 ticks after the server loads.
+- The mode is stored in `blockshops.yml` — re-creating the shop is the only way to change the mode.
+- `SMALL` mode respects quantity tiers — if the product has `buy-amounts` configured, clicking Buy opens the picker sub-menu.
 
 ---
 
@@ -292,7 +327,8 @@ LofiShop uses a permission hierarchy modeled after UltimateShop, so existing Luc
 
 | Node | Description |
 |---|---|
-| `lofishop.open` | Open any shop |
+| `lofishop.open` | Open shops via block right-click or NPC interaction |
+| `lofishop.open.command` | Open shops via the `/shop open` command. Without this, players must use a physical block shop or NPC — they cannot open shops directly from chat. |
 | `lofishop.open.<shopId>` | Open one specific shop (e.g. `lofishop.open.vip-shop`) |
 | `lofishop.buy` | Buy in any shop |
 | `lofishop.buy.<shopId>` | Buy in a specific shop |
@@ -321,6 +357,13 @@ LofiShop uses a permission hierarchy modeled after UltimateShop, so existing Luc
 # Give all players basic access (already default, but explicit)
 lp group default permission set lofishop.use true
 
+# Force players to use physical block shops — deny the command shortcut
+# (lofishop.open.command is op-only by default; explicitly deny it for safety)
+lp group default permission set lofishop.open.command false
+
+# Staff can open any shop via command
+lp group staff permission set lofishop.open.command true
+
 # VIP group — access a VIP-only shop and bypass daily limits
 lp group vip permission set lofishop.open.vip-shop true
 lp group vip permission set lofishop.buy.vip-shop true
@@ -341,13 +384,14 @@ All commands use the base `/lofishop` (aliases: `/shop`, `/ls`).
 
 | Command | Permission | Description |
 |---|---|---|
-| `/lofishop open <shopId>` | `lofishop.open` | Open a shop |
+| `/lofishop open <shopId>` | `lofishop.open.command` | Open a shop via command |
+| `/lofishop open <shopId> <player>` | `lofishop.admin` or console | Open a shop for another player (Citizens NPC use) |
 | `/lofishop list` | `lofishop.use` | List all available shops |
 | `/lofishop reload` | `lofishop.reload` | Reload all configs and shops |
 | `/lofishop quicksell` | `lofishop.quicksell` | Open quick-sell menu |
 | `/lofishop give sellwand [player]` | `lofishop.give.sellwand` | Give a sell wand |
 | `/lofishop givecreator [player]` | `lofishop.give.creator` | Give the shop creator wand |
-| `/lofishop createblock <shopId> <productKey>` | `lofishop.admin` | Attach a block shop |
+| `/lofishop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | `lofishop.admin` | Attach a block shop (look at block) |
 | `/lofishop removeblock` | `lofishop.admin` | Remove the nearest block shop |
 | `/lofishop help` | `lofishop.use` | Show help |
 | `/sellwand [player]` | `lofishop.give.sellwand` | Shorthand sell wand give command |
@@ -474,13 +518,23 @@ Block shops require the `lofishop.admin` permission.
 
 1. Place any block where you want the shop (a slab works well visually).
 2. Look directly at the block.
-3. Run: `/lofishop createblock <shopId> <productKey>`
+3. Run the createblock command with your chosen mode:
 
-The floating item will appear above the block within a second. Players right-click the block to open the shop.
+```
+/lofishop createblock <shopId> <productKey> [FULL|SMALL|QUICK]
+```
+
+| Mode | What the player sees on right-click |
+|---|---|
+| `FULL` | The full shop GUI with all products |
+| `SMALL` | A 3-row panel: item display in the centre, Buy button (left), Sell button (right) |
+| `QUICK` | No GUI — instantly buys the default amount, confirms in chat |
+
+The floating item appears above the block within a second. The mode is saved to `blockshops.yml`. To change the mode, remove the block shop and recreate it.
 
 ### Removing a Block Shop
 
-Stand near the block shop you want to remove and run:
+Look at the block shop and run:
 ```
 /lofishop removeblock
 ```
@@ -523,13 +577,13 @@ In `config.yml` under `sell-wand:`:
 
 ### Opening a Shop
 
-You can open a shop in three ways:
+There are several ways to open a shop depending on what your server admin has set up:
 
-1. **Command:** `/shop open <shopId>` (or `/ls open <shopId>`, `/lofishop open <shopId>`)
-2. **Block shop:** Right-click a physical block shop in the world.
-3. **Server-specific:** Ask your server admin for how shops are linked (signs, NPCs, etc.).
+1. **Block shop:** Right-click a physical block shop in the world — always available.
+2. **NPC:** Right-click a Citizens NPC configured to open a shop.
+3. **Command:** `/shop open <shopId>` — only if your server admin has granted you `lofishop.open.command`. Many servers intentionally restrict this so players must visit the physical shop location.
 
-To see all available shops:
+To see which shops are available:
 ```
 /shop list
 ```
@@ -689,10 +743,17 @@ Vault cannot find an economy plugin. Ensure EssentialsX (or another Vault econom
 
 Run `/lofishop reload` — block shops are respawned on plugin enable. If the display still doesn't appear, check that the world is loaded and the block still exists at the stored location.
 
-### Players can't open a shop
+### Players can't open a shop via command
+
+Players need `lofishop.open.command` to use `/shop open`. This is intentionally `op`-only by default so players are required to visit physical block shops or NPCs. Grant it explicitly if you want players to use the command:
+```
+lp group default permission set lofishop.open.command true
+```
+
+### Players can't open a shop via block or NPC
 
 1. Check the shop's `open-permission` field — if set, the player needs that permission node.
-2. Verify they have `lofishop.use` or `lofishop.open`.
+2. Verify they have `lofishop.use` (which grants `lofishop.open`).
 3. Check the console for limit or condition failures.
 
 ### Limits not resetting

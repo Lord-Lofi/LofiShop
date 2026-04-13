@@ -7,7 +7,8 @@ A powerful, configurable shop plugin for Paper 1.21.x — built as a feature-com
 - **GUI-based shops** — fully configurable chest-style menus built from YAML
 - **In-game shop creator** — build shops with a wand and GUI wizard, no YAML editing required
 - **Admin shops** — infinite stock, no restocking ever needed
-- **Block shops** — attach any shop product to a physical block with a floating animated item above it
+- **Block shops** — three modes: Full (opens entire shop GUI), Small (compact single-product GUI), Quick (instant purchase on right-click, no GUI)
+- **NPC shop support** — console/admin command opens a shop for a named player, enabling Citizens NPC integration via `/shop open <id> %player_name%`
 - **Quantity tiers** — let buyers choose 1, 8, 16, or 64 at a time from a picker sub-menu
 - **Custom item support** — full compatibility with MMOItems, Oraxen, Nexo, ItemsAdder, MythicMobs, MobHeads, HeadDatabase, and any PDC-based plugin
 - **Skull/head matching** — decorative heads matched by skin texture, not just material
@@ -58,20 +59,24 @@ Right-click with the Nether Star to open the shop editor GUI.
 ### Create a block shop
 Look at a block and run:
 ```
-/lofishop createblock <shopId> <productKey>
+/lofishop createblock <shopId> <productKey> [FULL|SMALL|QUICK]
 ```
+- `FULL` — opens the entire shop GUI (default)
+- `SMALL` — compact single-product GUI with buy/sell buttons
+- `QUICK` — instant purchase on right-click, no GUI
 
 ## Commands
 
 | Command | Description |
 |---|---|
-| `/shop open <id>` | Open a shop |
+| `/shop open <id>` | Open a shop (requires `lofishop.open.command`) |
+| `/shop open <id> <player>` | Open a shop for another player (admin/console only) |
 | `/shop list` | List all shops |
 | `/shop quicksell` | Open quick-sell menu |
 | `/shop reload` | Reload all configs and shops |
 | `/shop give sellwand [player]` | Give a sell wand |
 | `/shop givecreator [player]` | Give the shop creator wand |
-| `/shop createblock <shopId> <productKey>` | Attach a block shop to the block you're looking at |
+| `/shop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | Attach a block shop to the block you're looking at |
 | `/shop removeblock` | Remove the nearest block shop |
 | `/sellwand [player]` | Shorthand sell wand give |
 
@@ -83,6 +88,8 @@ Aliases: `/shop`, `/ls`, `/lofishop`
 |---|---|---|
 | `lofishop.admin` | op | Full access — grants everything |
 | `lofishop.use` | true | Base player access |
+| `lofishop.open` | true | Open shops via block/NPC right-click |
+| `lofishop.open.command` | op | Open shops via `/shop open` command |
 | `lofishop.open.<shopId>` | — | Open a specific shop |
 | `lofishop.buy.<shopId>` | — | Buy in a specific shop |
 | `lofishop.buy.<shopId>.<productId>` | — | Buy a specific product |
@@ -158,9 +165,9 @@ Covers:
 - Server admin installation and configuration
 - YAML shop format reference (all fields, actions, conditions)
 - In-game shop creator walkthrough
-- Block shop setup
+- Block shop modes (FULL / SMALL / QUICK) and Citizens NPC integration
 - Sell wand and quick sell
-- LuckPerms example setup
+- LuckPerms example setup including `open.command` gating
 - Custom plugin item workflow
 - Troubleshooting
 
