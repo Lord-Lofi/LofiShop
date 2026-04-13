@@ -15,7 +15,7 @@ commands:
   lofishop:
     description: Main LofiShop command.
     aliases: [ shop, ls ]
-    usage: /lofishop <open|list|reload|quicksell|give|givecreator|createblock|removeblock|help>
+    usage: /lofishop <open|list|reload|quicksell|give|givecreator|createblock|removeblock|help> [args]
     permission: lofishop.use
   sellwand:
     description: Give a sell wand to a player.
@@ -52,6 +52,7 @@ permissions:
       lofishop.give.sellwand: true
       lofishop.give.creator: true
       lofishop.open: true
+      lofishop.open.command: true
       lofishop.open.*: true
       lofishop.buy: true
       lofishop.buy.*: true
@@ -72,6 +73,8 @@ permissions:
       lofishop.sell: true
       lofishop.quicksell: true
       lofishop.sellwand.use: true
+      # Note: lofishop.open.command is NOT granted by lofishop.use.
+      # Players without it must use physical block shops or NPCs to open shops.
 
   # ── Command permissions ───────────────────────────────────────────────────
   lofishop.reload:
@@ -92,8 +95,18 @@ permissions:
 
   # ── Shop open permissions ─────────────────────────────────────────────────
   lofishop.open:
-    description: Open any shop (no per-shop restriction).
+    description: >
+      Allows opening shops via block right-click or NPC interaction.
+      Does NOT grant /shop open command access — see lofishop.open.command.
     default: true
+
+  lofishop.open.command:
+    description: >
+      Allows opening shops via the /shop open <id> command.
+      Without this, players must use physical block shops or Citizens NPCs.
+      Grant to staff/admins; leave unset for regular players to force them
+      to visit the physical store location.
+    default: op
 
   lofishop.open.*:
     description: Wildcard — open all shops regardless of per-shop node.

@@ -22,14 +22,19 @@ import java.util.*;
 import java.util.logging.Level;
 
 /**
- * Manages physical block shops — slabs in the world that display a floating
- * item above them and open a shop GUI when right-clicked.
+ * Manages physical block shops — blocks in the world that display a floating
+ * item above them and open a shop UI when right-clicked.
+ *
+ * Three modes (set at creation time):
+ *   FULL  — opens the full shop GUI (default)
+ *   SMALL — opens a compact single-product GUI
+ *   QUICK — instantly purchases with no GUI
  *
  * Data is persisted to plugins/LofiShop/blockshops.yml.
  *
  * Commands:
- *   /shop createblock <shopId> <productKey>  — look at a block to register it
- *   /shop removeblock                        — look at a block to remove it
+ *   /shop createblock <shopId> <productKey> [FULL|SMALL|QUICK]
+ *   /shop removeblock
  */
 public class BlockShopManager {
 
@@ -37,7 +42,7 @@ public class BlockShopManager {
     private static final float DISPLAY_SCALE     = 0.6f;
 
     private final LofiShop plugin;
-    private final Map<String, BlockShop> blockShops = new HashMap<>(); // locationKey → BlockShop
+    private final Map<String, BlockShop> blockShops = new HashMap<>();
     private File dataFile;
 
     public BlockShopManager(LofiShop plugin) {
@@ -49,10 +54,10 @@ public class BlockShopManager {
     // ── CRUD ──────────────────────────────────────────────────────────────────
 
     /**
-     * Registers a block at the given location as a shop display.
+     * Registers a block as a shop display with the given mode.
      * Spawns the floating ItemDisplay entity.
      */
-    public boolean create(Location blockLoc, String shopId, String productId) {
+    public boolean create(Location blockLoc, String shopId, String productId, BlockShopMode mode) {
         Shop shop = plugin.getShopManager().getShop(shopId);
         if (shop == null) return false;
         ShopProduct product = shop.getProduct(productId);
@@ -64,7 +69,7 @@ public class BlockShopManager {
         }
 
         UUID entityId = spawnDisplay(blockLoc, product.getDisplayItem());
-        BlockShop bs = new BlockShop(shopId, productId, blockLoc, entityId);
+        BlockShop bs = new BlockShop(shopId, productId, mode, blockLoc, entityId);
         blockShops.put(key, bs);
         save();
         return true;
@@ -92,7 +97,6 @@ public class BlockShopManager {
     // ── Entity management ─────────────────────────────────────────────────────
 
     private UUID spawnDisplay(Location blockLoc, ItemStack item) {
-        // Position the entity centred on the block, elevated by DISPLAY_OFFSET_Y
         Location spawnLoc = blockLoc.clone().add(0.5, DISPLAY_OFFSET_Y, 0.5);
         spawnLoc.setYaw(0);
         spawnLoc.setPitch(0);
@@ -106,7 +110,6 @@ public class BlockShopManager {
         display.setInvulnerable(true);
         display.setSilent(true);
 
-        // Scale and slight spin — gives a floating shop-stand look
         Transformation transform = new Transformation(
                 new Vector3f(0, 0, 0),
                 new AxisAngle4f(0, 0, 1, 0),
@@ -117,20 +120,19 @@ public class BlockShopManager {
         display.setDisplayWidth(1.0f);
         display.setDisplayHeight(1.0f);
 
-        // Start slow rotation task
         startRotation(display);
-
         return display.getUniqueId();
     }
 
     private void startRotation(ItemDisplay display) {
-        // Rotate 2° per tick — smooth, low-CPU spin
         final UUID id = display.getUniqueId();
         final float[] yaw = {0f};
 
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             Entity entity = Bukkit.getEntity(id);
-            if (!(entity instanceof ItemDisplay d) || !d.isValid()) return;
+            if (!(entity instanceof ItemDisplay)) return;
+            ItemDisplay d = (ItemDisplay) entity;
+            if (!d.isValid()) return;
 
             yaw[0] += 2f;
             if (yaw[0] >= 360f) yaw[0] = 0f;
@@ -160,7 +162,6 @@ public class BlockShopManager {
             Location loc = bs.getBlockLocation();
             if (loc.getWorld() == null) continue;
 
-            // Kill any stale entity first
             if (bs.getDisplayEntityId() != null) {
                 killDisplay(bs.getDisplayEntityId());
             }
@@ -203,6 +204,7 @@ public class BlockShopManager {
             String shopId   = entry.getString("shopId");
             String prodId   = entry.getString("productId");
             String uuidStr  = entry.getString("displayEntity");
+            BlockShopMode mode = BlockShopMode.fromString(entry.getString("mode", "FULL"));
 
             World world = Bukkit.getWorld(worldName != null ? worldName : "");
             if (world == null) continue;
@@ -213,7 +215,7 @@ public class BlockShopManager {
                 try { displayId = UUID.fromString(uuidStr); } catch (IllegalArgumentException ignored) {}
             }
 
-            BlockShop bs = new BlockShop(shopId, prodId, loc, displayId);
+            BlockShop bs = new BlockShop(shopId, prodId, mode, loc, displayId);
             blockShops.put(bs.locationKey(), bs);
         }
     }
@@ -232,6 +234,7 @@ public class BlockShopManager {
             cfg.set(base + "z",             loc.getBlockZ());
             cfg.set(base + "shopId",        bs.getShopId());
             cfg.set(base + "productId",     bs.getProductId());
+            cfg.set(base + "mode",          bs.getMode().name());
             if (bs.getDisplayEntityId() != null) {
                 cfg.set(base + "displayEntity", bs.getDisplayEntityId().toString());
             }

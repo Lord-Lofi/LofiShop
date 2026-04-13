@@ -53,6 +53,13 @@ public class MenuListener implements Listener {
             return;
         }
 
+        // ── Small shop GUI click ────────────────────────────────────────────
+        if (shopId.startsWith(dev.lofishop.gui.SmallShopGui.TAG_PREFIX)) {
+            event.setCancelled(true);
+            handleSmallShopClick(player, shopId, event.getRawSlot(), event.isRightClick());
+            return;
+        }
+
         event.setCancelled(true);
 
         Shop shop = plugin.getMenuManager().getOpenShop(player);
@@ -84,6 +91,41 @@ public class MenuListener implements Listener {
             handleSell(player, shop, product, shift ? 64 : product.getAmount());
         } else {
             handleBuy(player, shop, product, shift ? product.getAmount() * 4 : product.getAmount());
+        }
+    }
+
+    private void handleSmallShopClick(Player player, String tag, int slot, boolean rightClick) {
+        dev.lofishop.gui.SmallShopGui.SmallSession session =
+                dev.lofishop.gui.SmallShopGui.parseTag(tag);
+        if (session == null) { player.closeInventory(); return; }
+
+        Shop shop = plugin.getShopManager().getShop(session.shopId());
+        if (shop == null) { player.closeInventory(); return; }
+        ShopProduct product = shop.getProduct(session.productId());
+        if (product == null) { player.closeInventory(); return; }
+
+        if (slot == dev.lofishop.gui.SmallShopGui.SLOT_CLOSE) {
+            player.closeInventory();
+            return;
+        }
+
+        if (slot == dev.lofishop.gui.SmallShopGui.SLOT_BUY) {
+            if (product.hasMultipleBuyAmounts()) {
+                new dev.lofishop.gui.QuantityPickerMenu(plugin, player, shop, product, true).open();
+            } else {
+                player.closeInventory();
+                handleBuy(player, shop, product, product.getAmount());
+            }
+            return;
+        }
+
+        if (slot == dev.lofishop.gui.SmallShopGui.SLOT_SELL) {
+            if (product.hasMultipleSellAmounts()) {
+                new dev.lofishop.gui.QuantityPickerMenu(plugin, player, shop, product, false).open();
+            } else {
+                player.closeInventory();
+                handleSell(player, shop, product, product.getAmount());
+            }
         }
     }
 
