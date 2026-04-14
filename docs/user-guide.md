@@ -13,7 +13,8 @@
 2. [Server Admin — Configuration Files](#2-server-admin--configuration-files)
 3. [Server Admin — YAML Shop Creation](#3-server-admin--yaml-shop-creation)
 4. [Server Admin — Admin Shops](#4-server-admin--admin-shops)
-5. [Server Admin — Block Shops](#5-server-admin--block-shops)
+5. [Server Admin — Server Treasury](#45-server-admin--server-treasury)
+6. [Server Admin — Block Shops](#5-server-admin--block-shops)
 6. [Server Admin — Permissions & LuckPerms](#6-server-admin--permissions--luckperms)
 7. [Server Admin — Commands Reference](#7-server-admin--commands-reference)
 8. [Server Admin — PlaceholderAPI](#8-server-admin--placeholderapi)
@@ -239,6 +240,57 @@ rows: 6
 
 ---
 
+## 4.5. Server Admin — Server Treasury
+
+When `server-account.enabled: true` in `config.yml`, LofiShop tracks money flowing through every admin shop as a server treasury.
+
+| Event | Effect on treasury |
+|---|---|
+| Player **buys** from an admin shop | Amount spent is **credited** (money in) |
+| Player **sells** to an admin shop | Amount earned is **debited** (money out) |
+
+The treasury tracks three running totals:
+
+| Stat | Meaning |
+|---|---|
+| **Balance** | Net position — total received minus total paid |
+| **Total in** | Cumulative money spent by all players buying |
+| **Total out** | Cumulative money paid to all players selling |
+
+Data is saved to `plugins/LofiShop/server-account.yml` after every transaction and on plugin disable.
+
+### Viewing the Treasury
+
+```
+/shop serverbalance
+```
+
+Requires `lofishop.admin`. Output example:
+
+```
+LofiShop — Server Account
+Balance:      $48,320.00
+Total in:     $72,500.00  (players buying from admin shops)
+Total out:    $24,180.00  (players selling to admin shops)
+```
+
+### Vault Sync (Optional)
+
+Set `server-account.vault-sync-name` in `config.yml` to sync the balance to a Vault player account:
+
+```yaml
+server-account:
+  enabled: true
+  name: "Server"
+  vault-sync-name: "Server"   # EssentialsX offline account name
+```
+
+With EssentialsX, this means an admin can run `/eco see Server` and see the same balance. The Vault sync calls `depositPlayer("Server", amount)` and `withdrawPlayer("Server", amount)` — this works reliably with EssentialsX and most other Vault providers that support offline player accounts. If the provider doesn't support it, the call is silently skipped and the internal tracker is unaffected.
+
+> **Note:** The internal `server-account.yml` tracker is always the source of truth. The Vault account is a mirror for convenience, not the primary store.
+
+---
+
 ## 5. Server Admin — Block Shops
 
 Block shops attach a shop product to a physical block in the world. A floating animated item rotates above it. Players right-click the block to interact.
@@ -393,6 +445,7 @@ All commands use the base `/lofishop` (aliases: `/shop`, `/ls`).
 | `/lofishop givecreator [player]` | `lofishop.give.creator` | Give the shop creator wand |
 | `/lofishop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | `lofishop.admin` | Attach a block shop (look at block) |
 | `/lofishop removeblock` | `lofishop.admin` | Remove the nearest block shop |
+| `/lofishop serverbalance` | `lofishop.admin` | View server treasury balance and stats |
 | `/lofishop help` | `lofishop.use` | Show help |
 | `/sellwand [player]` | `lofishop.give.sellwand` | Shorthand sell wand give command |
 
@@ -408,11 +461,15 @@ Requires PlaceholderAPI installed and `placeholders.enabled: true` in `config.ym
 | `%lofishop_balance_formatted%` | Balance formatted with currency symbol |
 | `%lofishop_buy_limit_<shopId>_<productId>%` | Remaining personal buy limit for a product |
 | `%lofishop_sell_limit_<shopId>_<productId>%` | Remaining personal sell limit for a product |
+| `%lofishop_server_balance%` | Server treasury net balance (formatted) |
+| `%lofishop_server_received%` | Total money received from admin shop purchases (formatted) |
+| `%lofishop_server_paid%` | Total money paid out from admin shop sales (formatted) |
 
 **Example usage in a scoreboard plugin:**
 ```
 Balance: %lofishop_balance_formatted%
 Diamonds left today: %lofishop_buy_limit_example_d%
+Server treasury: %lofishop_server_balance%
 ```
 
 ---

@@ -179,6 +179,12 @@ public class BlockShopListener implements Listener {
 
         plugin.getLimitManager().recordBuy(player, shop.getId(), product, amount);
 
+        // Credit server account if this is an admin shop
+        if (shop.isAdminShop()) {
+            double total = product.getPrimaryBuyPrice().getAmount() * amount;
+            plugin.getServerAccount().credit(total);
+        }
+
         ShopPrice primary = product.getPrimaryBuyPrice();
         EconomyProvider primaryEcon = plugin.getEconomyManager()
                 .getProvider(primary.getEconomyId());

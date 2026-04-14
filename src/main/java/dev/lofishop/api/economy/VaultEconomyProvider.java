@@ -61,4 +61,16 @@ public class VaultEconomyProvider implements EconomyProvider {
     public String format(double amount) {
         return economy != null ? economy.format(amount) : getCurrencySymbol() + String.format("%,.2f", amount);
     }
+
+    @Override
+    public boolean deposit(String name, double amount) {
+        if (economy == null) return false;
+        return economy.depositPlayer(name, amount).transactionSuccess();
+    }
+
+    @Override
+    public boolean withdraw(String name, double amount) {
+        if (economy == null) return false;
+        return economy.withdrawPlayer(name, amount).transactionSuccess();
+    }
 }

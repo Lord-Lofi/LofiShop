@@ -16,6 +16,7 @@ A powerful, configurable shop plugin for Paper 1.21.x — built as a feature-com
 - **Quick sell** — scan your inventory and sell everything in one confirm click
 - **Per-product limits** — personal and global buy/sell limits with daily, weekly, or cron resets
 - **Actions & conditions** — trigger sounds, messages, titles, and commands on transactions; gate purchases behind permissions, balance, level, or PlaceholderAPI values
+- **Server treasury** — money spent in admin shops is tracked as a server account (net balance, total in/out); optional Vault sync so the balance shows in your economy plugin
 - **LuckPerms-compatible permissions** — fine-grained per-shop and per-product nodes
 - **PlaceholderAPI support** — expose balance and limit data to other plugins
 - **MiniMessage formatting** — full gradient/color support everywhere
@@ -78,6 +79,7 @@ Look at a block and run:
 | `/shop givecreator [player]` | Give the shop creator wand |
 | `/shop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | Attach a block shop to the block you're looking at |
 | `/shop removeblock` | Remove the nearest block shop |
+| `/shop serverbalance` | View server treasury stats (admin only) |
 | `/sellwand [player]` | Shorthand sell wand give |
 
 Aliases: `/shop`, `/ls`, `/lofishop`
@@ -156,6 +158,9 @@ No manual key configuration needed. The creator wand GUI confirms which plugin w
 | `%lofishop_balance_formatted%` | Balance with currency symbol |
 | `%lofishop_buy_limit_<shopId>_<productId>%` | Remaining personal buy limit |
 | `%lofishop_sell_limit_<shopId>_<productId>%` | Remaining personal sell limit |
+| `%lofishop_server_balance%` | Server treasury net balance |
+| `%lofishop_server_received%` | Total money received from admin shop purchases |
+| `%lofishop_server_paid%` | Total money paid out from admin shop sales |
 
 ## Documentation
 

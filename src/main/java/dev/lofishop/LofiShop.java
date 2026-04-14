@@ -1,6 +1,7 @@
 package dev.lofishop;
 
 import dev.lofishop.api.economy.EconomyManager;
+import dev.lofishop.economy.ServerAccount;
 import dev.lofishop.commands.LofiShopCommand;
 import dev.lofishop.commands.SellWandCommand;
 import dev.lofishop.config.ConfigManager;
@@ -28,6 +29,7 @@ public final class LofiShop extends JavaPlugin {
     private ConfigManager configManager;
     private MessageConfig messageConfig;
     private EconomyManager economyManager;
+    private ServerAccount serverAccount;
     private ShopManager shopManager;
     private LimitManager limitManager;
     private MenuManager menuManager;
@@ -51,6 +53,7 @@ public final class LofiShop extends JavaPlugin {
             return;
         }
 
+        serverAccount        = new ServerAccount(this);
         limitManager         = new LimitManager(this);
         shopManager          = new ShopManager(this);
         menuManager          = new MenuManager(this);
@@ -93,6 +96,7 @@ public final class LofiShop extends JavaPlugin {
     @Override
     public void onDisable() {
         if (limitManager != null)    limitManager.saveAll();
+        if (serverAccount != null)   serverAccount.save();
         if (blockShopManager != null) blockShopManager.removeAllDisplays();
         getLogger().info("LofiShop disabled.");
     }
@@ -113,6 +117,7 @@ public final class LofiShop extends JavaPlugin {
     public ConfigManager getConfigManager()            { return configManager; }
     public MessageConfig getMessageConfig()            { return messageConfig; }
     public EconomyManager getEconomyManager()          { return economyManager; }
+    public ServerAccount getServerAccount()            { return serverAccount; }
     public ShopManager getShopManager()                { return shopManager; }
     public LimitManager getLimitManager()              { return limitManager; }
     public MenuManager getMenuManager()                { return menuManager; }

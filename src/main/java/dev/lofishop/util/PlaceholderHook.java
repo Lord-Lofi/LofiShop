@@ -81,6 +81,21 @@ public class PlaceholderHook extends PlaceholderExpansion {
             }
         }
 
+        // %lofishop_server_balance%
+        if (params.equals("server_balance")) {
+            return plugin.getServerAccount().formattedBalance();
+        }
+
+        // %lofishop_server_received%
+        if (params.equals("server_received")) {
+            return plugin.getServerAccount().formattedReceived();
+        }
+
+        // %lofishop_server_paid%
+        if (params.equals("server_paid")) {
+            return plugin.getServerAccount().formattedPaid();
+        }
+
         return null;
     }
 }

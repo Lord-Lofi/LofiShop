@@ -217,6 +217,12 @@ public class MenuListener implements Listener {
         // Record limit
         plugin.getLimitManager().recordBuy(player, shop.getId(), product, amount);
 
+        // Credit server account if this is an admin shop
+        if (shop.isAdminShop()) {
+            double total = product.getPrimaryBuyPrice().getAmount() * amount;
+            plugin.getServerAccount().credit(total);
+        }
+
         // Actions
         ShopPrice primary = product.getPrimaryBuyPrice();
         EconomyProvider primaryEcon = plugin.getEconomyManager()
@@ -296,6 +302,11 @@ public class MenuListener implements Listener {
 
         // Record limit
         plugin.getLimitManager().recordSell(player, shop.getId(), product, amount);
+
+        // Debit server account if this is an admin shop
+        if (shop.isAdminShop()) {
+            plugin.getServerAccount().debit(earned);
+        }
 
         // Actions
         actionManager.execute(product.getSellActions(), player, Map.of(

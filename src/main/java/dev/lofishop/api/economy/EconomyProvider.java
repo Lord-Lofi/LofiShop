@@ -35,4 +35,17 @@ public interface EconomyProvider {
     default String format(double amount) {
         return getCurrencySymbol() + String.format("%,.2f", amount);
     }
+
+    /**
+     * Deposits amount to a named account (offline/virtual player).
+     * Used for the optional server-account Vault sync.
+     * Returns false if the provider does not support named accounts.
+     */
+    default boolean deposit(String name, double amount) { return false; }
+
+    /**
+     * Withdraws amount from a named account (offline/virtual player).
+     * Returns false if the provider does not support named accounts.
+     */
+    default boolean withdraw(String name, double amount) { return false; }
 }

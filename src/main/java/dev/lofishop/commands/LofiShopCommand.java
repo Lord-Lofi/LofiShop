@@ -61,16 +61,17 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         String sub = args[0].toLowerCase();
 
         switch (sub) {
-            case "open":        return handleOpen(sender, args);
-            case "list":        return handleList(sender);
-            case "reload":      return handleReload(sender);
-            case "quicksell":   return handleQuickSell(sender);
-            case "give":        return handleGive(sender, args);
-            case "createblock": return handleCreateBlock(sender, args);
-            case "removeblock": return handleRemoveBlock(sender);
-            case "givecreator": return handleGiveCreator(sender, args);
-            case "help":        return handleHelp(sender);
-            default:            return handleOpen(sender, args);
+            case "open":           return handleOpen(sender, args);
+            case "list":           return handleList(sender);
+            case "reload":         return handleReload(sender);
+            case "quicksell":      return handleQuickSell(sender);
+            case "give":           return handleGive(sender, args);
+            case "createblock":    return handleCreateBlock(sender, args);
+            case "removeblock":    return handleRemoveBlock(sender);
+            case "givecreator":    return handleGiveCreator(sender, args);
+            case "serverbalance":  return handleServerBalance(sender);
+            case "help":           return handleHelp(sender);
+            default:               return handleOpen(sender, args);
         }
     }
 
@@ -277,6 +278,37 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    // ── /shop serverbalance ───────────────────────────────────────────────────
+
+    private boolean handleServerBalance(CommandSender sender) {
+        if (!sender.hasPermission("lofishop.admin")) {
+            if (sender instanceof Player) plugin.getMessageConfig().send((Player) sender, "no-permission");
+            else sender.sendMessage("No permission.");
+            return true;
+        }
+
+        dev.lofishop.economy.ServerAccount acc = plugin.getServerAccount();
+        String name = acc.getDisplayName();
+
+        sender.sendMessage(MessageUtil.parse(
+                "<gold><bold>LofiShop — " + name + " Account"));
+        sender.sendMessage(MessageUtil.parse(
+                "<yellow>Balance:      <white>" + acc.formattedBalance()));
+        sender.sendMessage(MessageUtil.parse(
+                "<green>Total in:     <white>" + acc.formattedReceived()
+                + " <dark_gray>(players buying from admin shops)"));
+        sender.sendMessage(MessageUtil.parse(
+                "<red>Total out:    <white>" + acc.formattedPaid()
+                + " <dark_gray>(players selling to admin shops)"));
+
+        if (!plugin.getConfig().getString("server-account.vault-sync-name", "").isBlank()) {
+            sender.sendMessage(MessageUtil.parse(
+                    "<dark_gray>Vault sync:   <gray>"
+                    + plugin.getConfig().getString("server-account.vault-sync-name")));
+        }
+        return true;
+    }
+
     // ── /shop removeblock ─────────────────────────────────────────────────────
 
     private boolean handleRemoveBlock(CommandSender sender) {
@@ -328,6 +360,8 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(MessageUtil.parse("<yellow>/shop removeblock <gray>— Remove block shop"));
             player.sendMessage(MessageUtil.parse(
                     "<yellow>/shop open <id> <player> <gray>— Open shop for another player"));
+            player.sendMessage(MessageUtil.parse(
+                    "<yellow>/shop serverbalance <gray>— View server treasury stats"));
         }
     }
 
@@ -339,6 +373,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("  give sellwand <player>");
         sender.sendMessage("  givecreator <player>");
         sender.sendMessage("  createblock <shopId> <productKey> [FULL|SMALL|QUICK]  (player only)");
+        sender.sendMessage("  serverbalance  — view server treasury stats");
     }
 
     // ── Tab completion ────────────────────────────────────────────────────────
@@ -363,6 +398,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
                 subs.add("givecreator");
                 subs.add("createblock");
                 subs.add("removeblock");
+                subs.add("serverbalance");
             }
             // Also complete shop IDs directly
             subs.addAll(plugin.getShopManager().getShopIds());

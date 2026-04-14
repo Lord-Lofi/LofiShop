@@ -59,3 +59,17 @@ menus:
 placeholders:
   # Requires PlaceholderAPI
   enabled: true
+
+server-account:
+  # Track money flowing through admin shops as a server treasury.
+  # Buying from an admin shop credits the account; selling debits it.
+  enabled: true
+
+  # Display name shown in /shop serverbalance and PlaceholderAPI
+  name: "Server"
+
+  # Optional: sync balance to a Vault player account so it shows up
+  # in your economy plugin (e.g. /eco see Server in EssentialsX).
+  # Works with EssentialsX and most Vault providers that support
+  # offline player accounts. Leave blank to disable Vault sync.
+  vault-sync-name: ""
