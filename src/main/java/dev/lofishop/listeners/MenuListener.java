@@ -46,6 +46,9 @@ public class MenuListener implements Listener {
         String shopId = plugin.getMenuManager().getOpenShopId(player);
         if (shopId == null || shopId.equals("__quicksell__")) return;
 
+        // ── Creator GUI — handled entirely by ShopCreatorListener ──────────
+        if (shopId.startsWith("__creator_")) return;
+
         // ── Quantity picker menu click ──────────────────────────────────────
         if (shopId.startsWith(dev.lofishop.gui.QuantityPickerMenu.PICKER_TAG)) {
             event.setCancelled(true);

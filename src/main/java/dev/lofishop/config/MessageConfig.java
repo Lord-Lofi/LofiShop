@@ -3,8 +3,6 @@ package dev.lofishop.config;
 import dev.lofishop.LofiShop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -42,12 +40,11 @@ public class MessageConfig {
         String prefix = getRaw("prefix");
         raw = raw.replace("{prefix}", prefix);
 
-        TagResolver.Builder resolver = TagResolver.builder();
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            resolver.resolver(Placeholder.parsed(entry.getKey(), entry.getValue()));
+            raw = raw.replace("{" + entry.getKey() + "}", entry.getValue());
         }
 
-        return mm.deserialize(raw, resolver.build());
+        return mm.deserialize(raw);
     }
 
     /** Parses a message key with no extra placeholders. */
@@ -66,11 +63,10 @@ public class MessageConfig {
 
     /** Parses any MiniMessage string with placeholders. */
     public Component parse(String raw, Map<String, String> placeholders) {
-        TagResolver.Builder resolver = TagResolver.builder();
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            resolver.resolver(Placeholder.parsed(entry.getKey(), entry.getValue()));
+            raw = raw.replace("{" + entry.getKey() + "}", entry.getValue());
         }
-        return mm.deserialize(raw, resolver.build());
+        return mm.deserialize(raw);
     }
 
     public Component parse(String raw) {

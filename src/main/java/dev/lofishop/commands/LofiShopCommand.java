@@ -258,6 +258,18 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
                 ? BlockShopMode.fromString(args[3])
                 : BlockShopMode.FULL;
 
+        dev.lofishop.shop.Shop shop = plugin.getShopManager().getShop(shopId);
+        if (shop == null) {
+            player.sendMessage(MessageUtil.parse(
+                    "<red>[LofiShop] Shop '<white>" + shopId + "<red>' not found. Use /shop list to see available shops."));
+            return true;
+        }
+        if (shop.getProduct(prodId) == null) {
+            player.sendMessage(MessageUtil.parse(
+                    "<red>[LofiShop] Product '<white>" + prodId + "<red>' not found in shop '<white>" + shopId + "<red>'."));
+            return true;
+        }
+
         org.bukkit.block.Block target = player.getTargetBlockExact(5);
         if (target == null) {
             player.sendMessage(MessageUtil.parse("<red>Look at a block within 5 blocks first."));
@@ -273,7 +285,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
                     " <dark_gray>[" + mode.name() + "]"));
         } else {
             player.sendMessage(MessageUtil.parse(
-                    "<red>Could not create block shop — check shop ID and product key."));
+                    "<red>Could not create block shop at that location."));
         }
         return true;
     }

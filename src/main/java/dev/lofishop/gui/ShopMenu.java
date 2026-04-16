@@ -100,7 +100,7 @@ public class ShopMenu {
 
         if (autoLimit && product.getLimits().hasPersonalBuyLimit()) {
             int remaining = plugin.getLimitManager()
-                    .remainingBuys(player, /* shopId injected via MenuManager */ "", product);
+                    .remainingBuys(player, shop.getId(), product);
             extraLore.add(MessageUtil.parse(
                     "<gray>Buy limit: <white>" + remaining + "<gray>/" +
                     product.getLimits().getPersonalBuy()));

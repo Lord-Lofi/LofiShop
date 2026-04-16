@@ -128,7 +128,8 @@ public class ShopManager {
         if (!ps.isList(node)) return prices;
 
         for (Map<?, ?> entry : ps.getMapList(node)) {
-            String type = String.valueOf(entry.getOrDefault("type", "vault"));
+            Object rawType = entry.get("type");
+            String type = rawType != null ? String.valueOf(rawType) : "vault";
             double amt = 0;
             Object rawAmt = entry.get("amount");
             if (rawAmt instanceof Number) amt = ((Number) rawAmt).doubleValue();
@@ -178,7 +179,15 @@ public class ShopManager {
         }
 
         String name = sec.getString("name", "");
-        List<String> lore = sec.getStringList("lore");
+        // Strip price-placeholder lines — {buy_price} and {sell_price} are display
+        // tokens meant for the shop GUI only; the auto-price-lore system handles them.
+        List<String> rawLore = sec.getStringList("lore");
+        List<String> lore = new ArrayList<>();
+        for (String line : rawLore) {
+            if (!line.contains("{buy_price}") && !line.contains("{sell_price}")) {
+                lore.add(line);
+            }
+        }
         int customModelData = sec.getInt("custom-model-data", -1);
 
         return ItemUtil.buildItem(material, name, lore, customModelData);
