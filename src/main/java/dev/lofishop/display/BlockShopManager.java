@@ -106,7 +106,7 @@ public class BlockShopManager {
 
         ItemDisplay display = (ItemDisplay) world.spawnEntity(spawnLoc, EntityType.ITEM_DISPLAY);
         display.setItemStack(item);
-        display.setPersistent(false);
+        display.setPersistent(true);
         display.setInvulnerable(true);
         display.setSilent(true);
 

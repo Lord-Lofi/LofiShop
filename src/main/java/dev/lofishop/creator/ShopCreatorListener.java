@@ -180,7 +180,9 @@ public class ShopCreatorListener implements Listener {
             if (clickedInv != null) {
                 ItemStack item = clickedInv.getItem(event.getSlot());
                 if (item != null && !item.getType().isAir()) {
-                    draft.setItem(item.clone());
+                    ItemStack toSet = item.clone();
+                    toSet.setAmount(1);
+                    draft.setItem(toSet);
                     player.sendMessage(MessageUtil.parse(
                             "<gold>[LofiShop] <gray>Item set: <white>" + item.getType().name()));
                     refreshProduct(player, session, draft);

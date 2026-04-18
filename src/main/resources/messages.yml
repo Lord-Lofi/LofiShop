@@ -10,8 +10,8 @@ shop-not-found: "{prefix}<red>Shop <white>{shop}</white> not found."
 no-permission: "{prefix}<red>You don't have permission to do that."
 
 # Transactions
-buy-success: "{prefix}<green>You bought <white>x{amount} {item}</white> for <gold>{price} {currency}</gold>."
-sell-success: "{prefix}<green>You sold <white>x{amount} {item}</white> for <gold>{price} {currency}</gold>."
+buy-success: "{prefix}<green>You bought <white>x{amount} {item}</white> for <gold>{price}</gold>."
+sell-success: "{prefix}<green>You sold <white>x{amount} {item}</white> for <gold>{price}</gold>."
 buy-failed-money: "{prefix}<red>You don't have enough <gold>{currency}</gold>. Need <white>{price}</white>."
 sell-failed-no-item: "{prefix}<red>You don't have <white>{item}</white> to sell."
 buy-disabled: "{prefix}<red>Buying is currently disabled."
@@ -28,7 +28,7 @@ limit-resets-in: "<gray>Resets in: <white>{time}</gray>"
 
 # Sell wand
 sellwand-given: "{prefix}<green>Sell wand given to <white>{player}</white>."
-sellwand-use: "{prefix}<green>Sold <white>x{amount}</white> items from chest for <gold>{price} {currency}</gold>."
+sellwand-use: "{prefix}<green>Sold <white>x{amount}</white> items from chest for <gold>{price}</gold>."
 sellwand-empty: "{prefix}<yellow>The chest had no sellable items."
 sellwand-no-chest: "{prefix}<red>Right-click a chest to use the sell wand."
 sellwand-broken: "{prefix}<red>Your sell wand has broken."
@@ -37,7 +37,7 @@ sellwand-broken: "{prefix}<red>Your sell wand has broken."
 quicksell-title: "<dark_gray>Quick Sell"
 quicksell-confirm: "<green><bold>Confirm Sale"
 quicksell-cancel: "<red><bold>Cancel"
-quicksell-total: "<gray>Total: <gold>{price} {currency}"
+quicksell-total: "<gray>Total: <gold>{price}"
 quicksell-empty: "{prefix}<yellow>You have nothing sellable in your inventory."
 
 # Admin
