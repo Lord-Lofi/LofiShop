@@ -166,17 +166,7 @@ No manual key configuration needed. The creator wand GUI confirms which plugin w
 
 ## Documentation
 
-Full setup and usage guide: [docs/user-guide.md](docs/user-guide.md)
-
-Covers:
-- Server admin installation and configuration
-- YAML shop format reference (all fields, actions, conditions)
-- In-game shop creator walkthrough
-- Block shop modes (FULL / SMALL / QUICK) and Citizens NPC integration
-- Sell wand and quick sell
-- LuckPerms example setup including `open.command` gating
-- Custom plugin item workflow
-- Troubleshooting
+Full documentation is available on the **[LofiShop Wiki](https://github.com/Lord-Lofi/LofiShop/wiki)**.
 
 ## License
 
