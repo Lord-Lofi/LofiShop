@@ -443,6 +443,8 @@ All commands use the base `/lofishop` (aliases: `/shop`, `/ls`).
 | `/lofishop quicksell` | `lofishop.quicksell` | Open quick-sell menu |
 | `/lofishop give sellwand [player]` | `lofishop.give.sellwand` | Give a sell wand |
 | `/lofishop givecreator [player]` | `lofishop.give.creator` | Give the shop creator wand |
+| `/lofishop edit <shopId>` | `lofishop.admin` | Open the shop creator pre-filled with an existing shop |
+| `/lofishop delete <shopId>` | `lofishop.admin` | Delete a shop and all its block shops |
 | `/lofishop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | `lofishop.admin` | Attach a block shop (look at block) |
 | `/lofishop removeblock` | `lofishop.admin` | Remove the nearest block shop |
 | `/lofishop serverbalance` | `lofishop.admin` | View server treasury balance and stats |
@@ -534,7 +536,7 @@ Clicking a product slot (or the green "add new" slot) opens the product editor.
 
 | Slot | Item | Action |
 |---|---|---|
-| 13 | Your item / green glass | **Drag your item here from your inventory** |
+| 13 | Your item / green glass | **Click any item in your bottom inventory to set it** |
 | 0 | Gold Ingot | Click → type buy price in chat (`none` to disable buying) |
 | 1 | Iron Ingot | Click → type sell price in chat (`none` to disable selling) |
 | 2 | Comparator | Click → type default amount per click |
@@ -547,10 +549,10 @@ Clicking a product slot (or the green "add new" slot) opens the product editor.
 | 26 | Lime/Red Wool | Save product (turns green when item + at least one price are set) |
 
 **Setting a custom item:**
-1. Hold the item in your inventory.
-2. Drag it into slot 13 of the product editor.
-3. The slot updates with your item. If it's a custom plugin item (MMOItems, Oraxen, etc.), extra lore will show the detected plugin and PDC data confirmation.
-4. All item identity data is captured automatically — no manual key configuration needed.
+1. Have the item anywhere in your inventory (hotbar or main inventory).
+2. With the product editor open, click that item in your bottom inventory.
+3. The centre slot updates to show your item. If it's a custom plugin item (MMOItems, Oraxen, etc.), extra lore will show the detected plugin and PDC data confirmation.
+4. The item stays in your inventory — only a copy is captured. All item identity data is stored automatically.
 
 **Setting quantity tiers:**
 - When buy tiers are set (e.g. `1,8,16,64`), clicking the product in the shop opens a sub-menu letting the buyer choose how many they want.
@@ -745,8 +747,8 @@ Custom items work the same as vanilla items — just place them in your inventor
 
 1. Get the exact custom item in your inventory (e.g. an MMOItems sword).
 2. Open the product editor (creator wand → add/edit product).
-3. Drag the item into slot 13.
-4. Lore on the slot will confirm the detected plugin and PDC key summary, e.g.:
+3. With the editor open, click the item in your bottom inventory.
+4. The centre slot updates and its lore will confirm the detected plugin and PDC key summary, e.g.:
    ```
    ── Item Data ──
    Plugin: MMOItems

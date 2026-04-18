@@ -77,6 +77,8 @@ Look at a block and run:
 | `/shop reload` | Reload all configs and shops |
 | `/shop give sellwand [player]` | Give a sell wand |
 | `/shop givecreator [player]` | Give the shop creator wand |
+| `/shop edit <shopId>` | Open the shop creator pre-filled with an existing shop |
+| `/shop delete <shopId>` | Delete a shop and all its block shops |
 | `/shop createblock <shopId> <productKey> [FULL\|SMALL\|QUICK]` | Attach a block shop to the block you're looking at |
 | `/shop removeblock` | Remove the nearest block shop |
 | `/shop serverbalance` | View server treasury stats (admin only) |
