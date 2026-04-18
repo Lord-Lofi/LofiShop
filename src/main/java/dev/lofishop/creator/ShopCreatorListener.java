@@ -71,6 +71,7 @@ public class ShopCreatorListener implements Listener {
             event.setCancelled(true);
             handleMainEditorClick(player, session, event.getRawSlot(), event.isShiftClick());
         } else if (ProductEditorGui.TAG.equals(tag)) {
+            event.setCancelled(true);
             handleProductEditorClick(player, session, event);
         }
     }
@@ -102,8 +103,10 @@ public class ShopCreatorListener implements Listener {
             }
             case ShopCreatorGui.SLOT_CANCEL -> {
                 plugin.getShopCreatorManager().endSession(player);
-                player.closeInventory();
-                player.sendMessage(MessageUtil.parse("<gold>[LofiShop] <gray>Shop creation cancelled."));
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    player.closeInventory();
+                    player.sendMessage(MessageUtil.parse("<gold>[LofiShop] <gray>Shop creation cancelled."));
+                });
             }
             case ShopCreatorGui.SLOT_SAVE -> {
                 if (session.getProducts().isEmpty()) {
@@ -114,9 +117,12 @@ public class ShopCreatorListener implements Listener {
                     player.sendMessage(MessageUtil.parse("<red>Set a shop ID before saving."));
                     return;
                 }
-                player.closeInventory();
-                ShopYamlWriter.write(plugin, session, player);
+                ShopCreatorSession savedSession = session;
                 plugin.getShopCreatorManager().endSession(player);
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    player.closeInventory();
+                    ShopYamlWriter.write(plugin, savedSession, player);
+                });
             }
             case ShopCreatorGui.SLOT_PREV -> {
                 // Page navigation handled via re-open with page-1
@@ -146,14 +152,16 @@ public class ShopCreatorListener implements Listener {
                         "<gold>[LofiShop] <gray>Removed product <white>" + draft.getKey()));
                 refreshMain(player, session);
             } else {
-                new ProductEditorGui(plugin, player, session, draft).open();
+                plugin.getServer().getScheduler().runTask(plugin, () ->
+                        new ProductEditorGui(plugin, player, session, draft).open());
             }
         } else if (idx == products.size()) {
             // "Add Product" button
             ProductDraft newDraft = new ProductDraft(session.nextKey());
             // Don't add to list yet — add only when saved from product editor
             session.setEditingProduct(newDraft);
-            new ProductEditorGui(plugin, player, session, newDraft).open();
+            plugin.getServer().getScheduler().runTask(plugin, () ->
+                    new ProductEditorGui(plugin, player, session, newDraft).open());
         }
     }
 
@@ -165,13 +173,21 @@ public class ShopCreatorListener implements Listener {
         ProductDraft draft = session.getEditingProduct();
         if (draft == null) return;
 
-        // Allow drag into item slot
-        if (slot == ProductEditorGui.SLOT_ITEM) {
-            // Don't cancel — let the player place their item
+        // Click in player's bottom inventory → capture that item as the product item.
+        // The click is already cancelled, so the item stays in the player's inventory.
+        if (slot >= 27) {
+            org.bukkit.inventory.Inventory clickedInv = event.getClickedInventory();
+            if (clickedInv != null) {
+                ItemStack item = clickedInv.getItem(event.getSlot());
+                if (item != null && !item.getType().isAir()) {
+                    draft.setItem(item.clone());
+                    player.sendMessage(MessageUtil.parse(
+                            "<gold>[LofiShop] <gray>Item set: <white>" + item.getType().name()));
+                    refreshProduct(player, session, draft);
+                }
+            }
             return;
         }
-
-        event.setCancelled(true);
 
         switch (slot) {
             case ProductEditorGui.SLOT_BUY_PRICE ->
@@ -199,18 +215,13 @@ public class ShopCreatorListener implements Listener {
                 cycleResetType(draft);
                 refreshProduct(player, session, draft);
             }
-            case ProductEditorGui.SLOT_BACK -> {
-                // Retrieve item from slot before going back
-                captureItemSlot(event.getView().getTopInventory(), draft);
+            case ProductEditorGui.SLOT_BACK ->
                 returnToMain(player, session);
-            }
             case ProductEditorGui.SLOT_SAVE -> {
-                captureItemSlot(event.getView().getTopInventory(), draft);
                 if (!draft.isReady()) {
                     player.sendMessage(MessageUtil.parse("<red>Set the item and at least one price first."));
                     return;
                 }
-                // Add to session if new, update if existing
                 if (!session.getProducts().contains(draft)) {
                     session.addProduct(draft);
                 }
@@ -221,16 +232,7 @@ public class ShopCreatorListener implements Listener {
         }
     }
 
-    /** Reads whatever is in the item slot of the product editor inventory. */
-    private void captureItemSlot(org.bukkit.inventory.Inventory inv, ProductDraft draft) {
-        ItemStack item = inv.getItem(ProductEditorGui.SLOT_ITEM);
-        if (item != null && item.getType() != Material.AIR
-                && item.getType() != Material.LIME_STAINED_GLASS_PANE) {
-            draft.setItem(item.clone());
-        }
-    }
-
-    // Drag-and-drop into the item slot
+    // Drag-and-drop in the product editor
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryDrag(InventoryDragEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
@@ -240,13 +242,7 @@ public class ShopCreatorListener implements Listener {
         String tag = plugin.getMenuManager().getOpenShopId(player);
         if (!ProductEditorGui.TAG.equals(tag)) return;
 
-        // Allow drag only into the item slot
-        for (int slot : event.getRawSlots()) {
-            if (slot != ProductEditorGui.SLOT_ITEM && slot < 27) {
-                event.setCancelled(true);
-                return;
-            }
-        }
+        event.setCancelled(true);
     }
 
     // ── Chat capture ──────────────────────────────────────────────────────────
@@ -386,14 +382,6 @@ public class ShopCreatorListener implements Listener {
         if (!(event.getPlayer() instanceof Player)) return;
         Player player = (Player) event.getPlayer();
         if (!plugin.getShopCreatorManager().hasSession(player)) return;
-
-        String tag = plugin.getMenuManager().getOpenShopId(player);
-        // If in product editor, capture the item before close
-        if (ProductEditorGui.TAG.equals(tag)) {
-            ShopCreatorSession session = plugin.getShopCreatorManager().getSession(player);
-            ProductDraft draft = session.getEditingProduct();
-            if (draft != null) captureItemSlot(event.getInventory(), draft);
-        }
         // Don't end session on close — player may have typed in chat and will reopen
     }
 
@@ -401,24 +389,62 @@ public class ShopCreatorListener implements Listener {
 
     private void promptChat(Player player, ShopCreatorSession session,
                              ShopCreatorSession.State nextState, String prompt) {
-        player.closeInventory();
         session.setState(nextState);
-        player.sendMessage(MessageUtil.parse(prompt));
-        player.sendMessage(MessageUtil.parse("<gray>Type <red>cancel <gray>to abort."));
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            player.closeInventory();
+            player.sendMessage(MessageUtil.parse(prompt));
+            player.sendMessage(MessageUtil.parse("<gray>Type <red>cancel <gray>to abort."));
+            openChatScreen(player);
+        });
+    }
+
+    private void openChatScreen(Player player) {
+        try {
+            Object nmsPlayer = player.getClass().getMethod("getHandle").invoke(player);
+            Object conn = nmsPlayer.getClass().getField("connection").get(nmsPlayer);
+            Class<?> pktClass = Class.forName(
+                    "net.minecraft.network.protocol.game.ClientboundOpenChatScreenPacket");
+            Object pkt = pktClass.getConstructor(String.class).newInstance("");
+            Class<?> packetBase = Class.forName("net.minecraft.network.protocol.Packet");
+            conn.getClass().getMethod("send", packetBase).invoke(conn, pkt);
+        } catch (Exception ignored) {
+            // Paper version doesn't support it; player presses T manually
+        }
     }
 
     private void refreshMain(Player player, ShopCreatorSession session) {
-        new ShopCreatorGui(plugin, player, session).open();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            org.bukkit.inventory.Inventory current =
+                    player.getOpenInventory().getTopInventory();
+            // Update in-place to avoid close/reopen desync
+            if (current.getSize() == 54) {
+                current.clear();
+                new ShopCreatorGui(plugin, player, session).populate(current);
+            } else {
+                new ShopCreatorGui(plugin, player, session).open();
+            }
+        });
     }
 
     private void refreshProduct(Player player, ShopCreatorSession session, ProductDraft draft) {
-        new ProductEditorGui(plugin, player, session, draft).open();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            org.bukkit.inventory.Inventory current =
+                    player.getOpenInventory().getTopInventory();
+            // Update in-place to avoid close/reopen desync
+            if (current.getSize() == 27) {
+                current.clear();
+                new ProductEditorGui(plugin, player, session, draft).populate(current);
+            } else {
+                new ProductEditorGui(plugin, player, session, draft).open();
+            }
+        });
     }
 
     private void returnToMain(Player player, ShopCreatorSession session) {
         session.setState(ShopCreatorSession.State.MAIN_EDITOR);
         session.setEditingProduct(null);
-        new ShopCreatorGui(plugin, player, session).open();
+        plugin.getServer().getScheduler().runTask(plugin, () ->
+                new ShopCreatorGui(plugin, player, session).open());
     }
 
     private void cycleResetType(ProductDraft draft) {

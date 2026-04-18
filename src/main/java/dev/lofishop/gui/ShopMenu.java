@@ -34,8 +34,8 @@ public class ShopMenu {
 
         populateInventory(inv, player);
 
-        plugin.getMenuManager().setOpenShop(player, shop.getId());
         player.openInventory(inv);
+        plugin.getMenuManager().setOpenShop(player, shop.getId());
     }
 
     private void populateInventory(Inventory inv, Player player) {

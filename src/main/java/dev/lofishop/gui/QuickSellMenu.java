@@ -123,8 +123,8 @@ public class QuickSellMenu {
         );
         inv.setItem(cancelSlot, cancel);
 
-        plugin.getMenuManager().setOpenShop(player, "__quicksell__");
         player.openInventory(inv);
+        plugin.getMenuManager().setOpenShop(player, "__quicksell__");
     }
 
     public void executeSell() {

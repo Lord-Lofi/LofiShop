@@ -87,9 +87,9 @@ public class QuantityPickerMenu {
                 "<red>Back",
                 List.of("<gray>Return to shop.")));
 
+        player.openInventory(inv);
         plugin.getMenuManager().setOpenShop(player, PICKER_TAG + ":" + shop.getId()
                 + ":" + product.getId() + ":" + (isBuy ? "buy" : "sell"));
-        player.openInventory(inv);
     }
 
     private String getProductName() {

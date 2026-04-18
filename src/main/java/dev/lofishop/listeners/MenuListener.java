@@ -4,6 +4,7 @@ import dev.lofishop.LofiShop;
 import dev.lofishop.action.ActionManager;
 import dev.lofishop.action.ConditionChecker;
 import dev.lofishop.api.economy.EconomyProvider;
+import dev.lofishop.gui.ShopMenu;
 import dev.lofishop.shop.Shop;
 import dev.lofishop.shop.ShopProduct;
 import dev.lofishop.shop.ShopPrice;
@@ -250,6 +251,11 @@ public class MenuListener implements Listener {
             plugin.getLogger().info("[Buy] " + player.getName() + " bought x" + amount +
                     " " + getItemName(product) + " from " + shop.getId());
         }
+
+        // Refresh shop so limit counts update
+        final Shop refreshShop = shop;
+        plugin.getServer().getScheduler().runTaskLater(plugin, () ->
+                new ShopMenu(plugin, refreshShop).open(player), 1L);
     }
 
     private void handleSell(Player player, Shop shop, ShopProduct product, int requestedAmount) {
@@ -332,6 +338,11 @@ public class MenuListener implements Listener {
             plugin.getLogger().info("[Sell] " + player.getName() + " sold x" + amount +
                     " " + getItemName(product) + " in " + shop.getId());
         }
+
+        // Refresh shop so limit counts update
+        final Shop refreshShop = shop;
+        plugin.getServer().getScheduler().runTaskLater(plugin, () ->
+                new ShopMenu(plugin, refreshShop).open(player), 1L);
     }
 
     @EventHandler

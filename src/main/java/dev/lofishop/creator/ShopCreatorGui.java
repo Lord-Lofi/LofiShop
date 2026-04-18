@@ -83,12 +83,12 @@ public class ShopCreatorGui {
 
         populate(inv);
 
-        plugin.getMenuManager().setOpenShop(player, TAG);
         session.setState(ShopCreatorSession.State.MAIN_EDITOR);
         player.openInventory(inv);
+        plugin.getMenuManager().setOpenShop(player, TAG);
     }
 
-    private void populate(Inventory inv) {
+    public void populate(Inventory inv) {
         // ── Row 0 controls ────────────────────────────────────────────────────
         inv.setItem(SLOT_NAME, ItemUtil.buildItem(Material.WRITABLE_BOOK,
                 "<yellow>Shop Name",

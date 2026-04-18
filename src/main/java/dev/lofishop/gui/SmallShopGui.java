@@ -97,8 +97,8 @@ public class SmallShopGui {
                 "<gray>Close", List.of()));
 
         String tag = TAG_PREFIX + ":" + shop.getId() + ":" + product.getId();
-        plugin.getMenuManager().setOpenShop(player, tag);
         player.openInventory(inv);
+        plugin.getMenuManager().setOpenShop(player, tag);
     }
 
     private ItemStack buildDisplayItem() {

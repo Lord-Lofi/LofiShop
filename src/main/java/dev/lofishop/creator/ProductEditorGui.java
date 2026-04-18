@@ -39,6 +39,7 @@ public class ProductEditorGui {
     public static final String TAG = "__creator_product__";
 
     public static final int SLOT_ITEM        = 13;
+
     public static final int SLOT_BUY_PRICE   = 0;
     public static final int SLOT_SELL_PRICE  = 1;
     public static final int SLOT_AMOUNT      = 2;
@@ -72,15 +73,25 @@ public class ProductEditorGui {
 
         populate(inv);
 
-        plugin.getMenuManager().setOpenShop(player, TAG);
         session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
         session.setEditingProduct(draft);
         player.openInventory(inv);
+        plugin.getMenuManager().setOpenShop(player, TAG);
     }
 
     public void populate(Inventory inv) {
-        // Item slot — if a custom plugin item is present, append detection info to lore
+        // Fill every slot with gray glass; specific slots are overwritten below.
+        // This prevents shift-clicks from player inventory landing in the wrong slots.
+        ItemStack filler = ItemUtil.buildItem(Material.GRAY_STAINED_GLASS_PANE, " ", List.of());
+        for (int i = 0; i < inv.getSize(); i++) {
+            inv.setItem(i, filler);
+        }
+        // Clear the item slot — must be genuinely empty so vanilla click/drag places
+        // the player's item directly without swapping out a glass pane onto their cursor.
+        // Item slot — shows placeholder or the actual item.
+        // Clicking it reads the player's main hand, so no cursor interaction needed.
         if (draft.getItem() != null) {
+            // Show the item with optional plugin-detection lore appended
             ItemStack displayItem = draft.getItem();
             String detectedPlugin = NbtMatcher.detectPlugin(displayItem);
             String pdcSummary     = NbtMatcher.pdcSummary(displayItem);
@@ -101,10 +112,9 @@ public class ProductEditorGui {
             inv.setItem(SLOT_ITEM, displayItem);
         } else {
             inv.setItem(SLOT_ITEM, ItemUtil.buildItem(Material.LIME_STAINED_GLASS_PANE,
-                    "<green>Drag your item here",
-                    List.of("<gray>This is what will be bought/sold.",
-                            "<gray>Custom plugin items are supported —",
-                            "<gray>drag the exact item from your inventory.")));
+                    "<green>No item set",
+                    List.of("<gray>Click any item in your inventory",
+                            "<gray>below to set it as this product.")));
         }
 
         // Controls
