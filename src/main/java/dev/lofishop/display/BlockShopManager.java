@@ -156,11 +156,14 @@ public class BlockShopManager {
         if (entity != null) entity.remove();
     }
 
-    /** Re-spawns display entities for all loaded block shops on startup. */
+    /** Re-spawns display entities for all block shops on startup. */
     public void respawnAll() {
         for (BlockShop bs : new ArrayList<>(blockShops.values())) {
             Location loc = bs.getBlockLocation();
             if (loc.getWorld() == null) continue;
+
+            // Force-load the chunk so persistent entities are findable and can be killed.
+            loc.getWorld().getChunkAt(loc).load(true);
 
             if (bs.getDisplayEntityId() != null) {
                 killDisplay(bs.getDisplayEntityId());
@@ -169,6 +172,25 @@ public class BlockShopManager {
             Shop shop = plugin.getShopManager().getShop(bs.getShopId());
             if (shop == null) continue;
             ShopProduct product = shop.getProduct(bs.getProductId());
+            if (product == null) continue;
+
+            UUID newId = spawnDisplay(loc, product.getDisplayItem());
+            bs.setDisplayEntityId(newId);
+        }
+        save();
+    }
+
+    /** Re-spawns display entities for all block shops belonging to the given shop ID. */
+    public void refreshShop(String shopId) {
+        Shop shop = plugin.getShopManager().getShop(shopId);
+        for (BlockShop bs : new ArrayList<>(blockShops.values())) {
+            if (!bs.getShopId().equals(shopId)) continue;
+            Location loc = bs.getBlockLocation();
+            if (loc.getWorld() == null) continue;
+
+            killDisplay(bs.getDisplayEntityId());
+
+            ShopProduct product = shop != null ? shop.getProduct(bs.getProductId()) : null;
             if (product == null) continue;
 
             UUID newId = spawnDisplay(loc, product.getDisplayItem());

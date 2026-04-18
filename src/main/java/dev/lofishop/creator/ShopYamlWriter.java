@@ -135,6 +135,9 @@ public final class ShopYamlWriter {
         // ── Reload so the shop is live immediately ────────────────────────────
         plugin.getShopManager().reload();
 
+        // Refresh block shop display entities so they show the updated item
+        plugin.getBlockShopManager().refreshShop(shopId);
+
         String verb = (originalId != null && !originalId.equals(shopId))
                 ? "<yellow>(renamed from " + originalId + ")"
                 : overwrite ? "<yellow>(updated)" : "<green>(created)";
