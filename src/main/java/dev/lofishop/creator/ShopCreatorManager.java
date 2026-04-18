@@ -122,6 +122,7 @@ public class ShopCreatorManager {
             session.addProduct(draft);
         }
 
+        session.setOriginalShopId(shop.getId());
         sessions.put(player.getUniqueId(), session);
         new ShopCreatorGui(plugin, player, session).open();
     }

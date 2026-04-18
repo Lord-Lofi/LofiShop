@@ -247,5 +247,32 @@ public class BlockShopManager {
         }
     }
 
+    /** Removes all block shops referencing the given shop ID and kills their entities. */
+    public void removeByShopId(String shopId) {
+        List<String> keys = new ArrayList<>();
+        for (Map.Entry<String, BlockShop> entry : blockShops.entrySet()) {
+            if (entry.getValue().getShopId().equals(shopId)) {
+                killDisplay(entry.getValue().getDisplayEntityId());
+                keys.add(entry.getKey());
+            }
+        }
+        keys.forEach(blockShops::remove);
+        if (!keys.isEmpty()) save();
+    }
+
+    /** Updates all block shops referencing oldShopId to use newShopId. */
+    public void renameShop(String oldShopId, String newShopId) {
+        List<String> keys = new ArrayList<>();
+        for (Map.Entry<String, BlockShop> entry : blockShops.entrySet()) {
+            if (entry.getValue().getShopId().equals(oldShopId)) keys.add(entry.getKey());
+        }
+        for (String key : keys) {
+            BlockShop old = blockShops.get(key);
+            blockShops.put(key, new BlockShop(newShopId, old.getProductId(),
+                    old.getMode(), old.getBlockLocation(), old.getDisplayEntityId()));
+        }
+        if (!keys.isEmpty()) save();
+    }
+
     public Collection<BlockShop> getAll() { return blockShops.values(); }
 }

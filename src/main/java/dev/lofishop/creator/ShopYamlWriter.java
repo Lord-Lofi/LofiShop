@@ -124,12 +124,22 @@ public final class ShopYamlWriter {
             return;
         }
 
+        // ── Handle rename: delete old file + update block shop references ────
+        String originalId = session.getOriginalShopId();
+        if (originalId != null && !originalId.equals(shopId)) {
+            File oldFile = new File(plugin.getDataFolder(), "shops/" + originalId + ".yml");
+            if (oldFile.exists()) oldFile.delete();
+            plugin.getBlockShopManager().renameShop(originalId, shopId);
+        }
+
         // ── Reload so the shop is live immediately ────────────────────────────
         plugin.getShopManager().reload();
 
+        String verb = (originalId != null && !originalId.equals(shopId))
+                ? "<yellow>(renamed from " + originalId + ")"
+                : overwrite ? "<yellow>(updated)" : "<green>(created)";
         player.sendMessage(MessageUtil.parse(
-                "<gold>[LofiShop] <green>Shop <white>" + shopId
-                + (overwrite ? " <yellow>(updated)" : " <green>(created)")
+                "<gold>[LofiShop] <green>Shop <white>" + shopId + " " + verb
                 + " <green>saved and loaded! Use <white>/shop open " + shopId
                 + " <green>to test it."));
     }

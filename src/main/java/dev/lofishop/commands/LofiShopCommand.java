@@ -67,6 +67,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
             case "quicksell":      return handleQuickSell(sender);
             case "give":           return handleGive(sender, args);
             case "edit":           return handleEdit(sender, args);
+            case "delete":         return handleDelete(sender, args);
             case "createblock":    return handleCreateBlock(sender, args);
             case "removeblock":    return handleRemoveBlock(sender);
             case "givecreator":    return handleGiveCreator(sender, args);
@@ -235,6 +236,45 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    // ── /shop delete <shopId> ────────────────────────────────────────────────
+
+    private boolean handleDelete(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command can only be used by players.");
+            return true;
+        }
+        if (!sender.hasPermission("lofishop.admin")) {
+            plugin.getMessageConfig().send((Player) sender, "no-permission");
+            return true;
+        }
+        if (args.length < 2) {
+            sender.sendMessage(MessageUtil.parse("<yellow>Usage: /shop delete <shopId>"));
+            return true;
+        }
+
+        Player player = (Player) sender;
+        String shopId = args[1].toLowerCase();
+
+        if (plugin.getShopManager().getShop(shopId) == null) {
+            player.sendMessage(MessageUtil.parse(
+                    "<red>[LofiShop] Shop '<white>" + shopId + "<red>' not found."));
+            return true;
+        }
+
+        // Remove all block shops pointing to this shop
+        plugin.getBlockShopManager().removeByShopId(shopId);
+
+        // Delete the shop yaml file
+        java.io.File file = new java.io.File(plugin.getDataFolder(), "shops/" + shopId + ".yml");
+        file.delete();
+
+        plugin.getShopManager().reload();
+        player.sendMessage(MessageUtil.parse(
+                "<gold>[LofiShop] <red>Shop <white>" + shopId
+                + " <red>deleted, along with all its block shops."));
+        return true;
+    }
+
     // ── /shop edit <shopId> ───────────────────────────────────────────────────
 
     private boolean handleEdit(CommandSender sender, String[] args) {
@@ -398,6 +438,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(MessageUtil.parse("<yellow>/shop give sellwand [player] <gray>— Give sell wand"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop givecreator [player] <gray>— Give shop creator wand"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop edit <shopId> <gray>— Edit an existing shop"));
+            player.sendMessage(MessageUtil.parse("<yellow>/shop delete <shopId> <gray>— Delete a shop and its block shops"));
             player.sendMessage(MessageUtil.parse(
                     "<yellow>/shop createblock <shopId> <product> [FULL|SMALL|QUICK] <gray>— Create block shop"));
             player.sendMessage(MessageUtil.parse("<yellow>/shop removeblock <gray>— Remove block shop"));
@@ -438,6 +479,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
                 subs.add("reload");
             if (isAdmin) {
                 subs.add("edit");
+                subs.add("delete");
                 subs.add("give");
                 subs.add("givecreator");
                 subs.add("createblock");
@@ -452,7 +494,7 @@ public class LofiShopCommand implements CommandExecutor, TabCompleter {
 
         } else if (args.length == 2) {
             String sub = args[0].toLowerCase();
-            if (sub.equals("open") || sub.equals("createblock") || sub.equals("edit")) {
+            if (sub.equals("open") || sub.equals("createblock") || sub.equals("edit") || sub.equals("delete")) {
                 for (String id : plugin.getShopManager().getShopIds()) {
                     if (id.startsWith(args[1].toLowerCase())) completions.add(id);
                 }

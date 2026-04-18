@@ -36,6 +36,9 @@ public class ShopCreatorSession {
     private State state = State.MAIN_EDITOR;
     private ProductDraft editingProduct = null;   // which product is currently in ProductEditorGui
 
+    /** Non-null when editing an existing shop; tracks the original ID for rename/overwrite. */
+    private String originalShopId = null;
+
     // ── Getters / Setters ─────────────────────────────────────────────────────
     public String getShopName() { return shopName; }
     public void setShopName(String v) {
@@ -79,4 +82,8 @@ public class ShopCreatorSession {
 
     public ProductDraft getEditingProduct() { return editingProduct; }
     public void setEditingProduct(ProductDraft p) { this.editingProduct = p; }
+
+    public String getOriginalShopId() { return originalShopId; }
+    public void setOriginalShopId(String id) { this.originalShopId = id; }
+    public boolean isEditMode() { return originalShopId != null; }
 }
