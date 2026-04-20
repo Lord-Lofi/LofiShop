@@ -17,6 +17,7 @@ import dev.lofishop.listeners.QuickSellListener;
 import dev.lofishop.listeners.SellWandListener;
 import dev.lofishop.sellwand.SellWandManager;
 import dev.lofishop.shop.ShopManager;
+import dev.lofishop.integration.LofiBoxHook;
 import dev.lofishop.util.PlaceholderHook;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
@@ -36,6 +37,7 @@ public final class LofiShop extends JavaPlugin {
     private SellWandManager sellWandManager;
     private BlockShopManager blockShopManager;
     private ShopCreatorManager shopCreatorManager;
+    private LofiBoxHook lofiBoxHook;
 
     @Override
     public void onEnable() {
@@ -84,6 +86,14 @@ public final class LofiShop extends JavaPlugin {
         getServer().getScheduler().runTaskLater(this, () ->
                 blockShopManager.respawnAll(), 20L);
 
+        // LofiBox hook
+        if (getServer().getPluginManager().isPluginEnabled("LofiBox")) {
+            lofiBoxHook = new LofiBoxHook();
+            if (lofiBoxHook.isAvailable()) {
+                getLogger().info("LofiBox detected — seasonal crate gating enabled.");
+            }
+        }
+
         // PlaceholderAPI hook
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderHook(this).register();
@@ -124,4 +134,6 @@ public final class LofiShop extends JavaPlugin {
     public SellWandManager getSellWandManager()        { return sellWandManager; }
     public BlockShopManager getBlockShopManager()      { return blockShopManager; }
     public ShopCreatorManager getShopCreatorManager()  { return shopCreatorManager; }
+    /** Null if LofiBox is not installed. */
+    public LofiBoxHook getLofiBoxHook()                 { return lofiBoxHook; }
 }

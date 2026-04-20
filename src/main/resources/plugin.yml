@@ -10,6 +10,7 @@ softdepend:
   - Vault
   - PlaceholderAPI
   - Essentials
+  - LofiBox
 
 commands:
   lofishop:

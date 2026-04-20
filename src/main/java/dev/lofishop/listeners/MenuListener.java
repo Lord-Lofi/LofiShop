@@ -4,6 +4,7 @@ import dev.lofishop.LofiShop;
 import dev.lofishop.action.ActionManager;
 import dev.lofishop.action.ConditionChecker;
 import dev.lofishop.api.economy.EconomyProvider;
+import dev.lofishop.integration.LofiBoxHook;
 import dev.lofishop.gui.ShopMenu;
 import dev.lofishop.shop.Shop;
 import dev.lofishop.shop.ShopProduct;
@@ -168,6 +169,15 @@ public class MenuListener implements Listener {
         if (!plugin.getConfig().getBoolean("general.buy-enabled", true)) {
             plugin.getMessageConfig().send(player, "buy-disabled");
             return;
+        }
+
+        // Seasonal LofiBox crate check — admins bypass
+        if (!player.hasPermission("lofishop.admin")) {
+            LofiBoxHook lofiBoxHook = plugin.getLofiBoxHook();
+            if (lofiBoxHook != null && !lofiBoxHook.isInSeason(product.getDisplayItem())) {
+                plugin.getMessageConfig().send(player, "box-out-of-season");
+                return;
+            }
         }
         if (!player.hasPermission("lofishop.buy")
                 && !player.hasPermission("lofishop.buy." + shop.getId())

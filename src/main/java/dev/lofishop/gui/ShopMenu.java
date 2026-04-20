@@ -2,6 +2,7 @@ package dev.lofishop.gui;
 
 import dev.lofishop.LofiShop;
 import dev.lofishop.api.economy.EconomyProvider;
+import dev.lofishop.integration.LofiBoxHook;
 import dev.lofishop.shop.Shop;
 import dev.lofishop.shop.ShopProduct;
 import dev.lofishop.util.ItemUtil;
@@ -104,6 +105,16 @@ public class ShopMenu {
             extraLore.add(MessageUtil.parse(
                     "<gray>Buy limit: <white>" + remaining + "<gray>/" +
                     product.getLimits().getPersonalBuy()));
+        }
+
+        // LofiBox seasonal state
+        LofiBoxHook lofiBoxHook = plugin.getLofiBoxHook();
+        if (lofiBoxHook != null && !lofiBoxHook.isInSeason(base)) {
+            extraLore.add(MessageUtil.parse("<red>⚠ Out of Season"));
+            String window = lofiBoxHook.getSeasonWindowDisplay(base);
+            if (window != null) {
+                extraLore.add(MessageUtil.parse("<dark_gray>Available: <gray>" + window));
+            }
         }
 
         if (!extraLore.isEmpty()) {

@@ -46,3 +46,6 @@ reload-failed: "{prefix}<red>Reload failed. Check console for errors."
 
 # Conditions
 condition-failed: "{prefix}<red>You do not meet the requirements for this action."
+
+# LofiBox seasonal
+box-out-of-season: "{prefix}<red>This crate is not currently available — check back when it's in season."
