@@ -38,12 +38,19 @@ public class ShopProduct {
     private final List<Integer> buyAmounts;
     private final List<Integer> sellAmounts;
 
+    /**
+     * When false, the display item is NOT automatically added to the player's inventory on buy.
+     * Use this for service/command products (e.g. crate boxes) where a buy action delivers the reward.
+     */
+    private final boolean giveItem;
+
     public ShopProduct(String id, ItemStack displayItem, int amount,
                        List<ShopPrice> buyPrices, List<ShopPrice> sellPrices,
                        LimitSettings limits,
                        List<String> buyActions, List<String> sellActions,
                        List<String> buyConditions, List<String> sellConditions,
-                       List<Integer> buyAmounts, List<Integer> sellAmounts) {
+                       List<Integer> buyAmounts, List<Integer> sellAmounts,
+                       boolean giveItem) {
         this.id           = id;
         this.displayItem  = displayItem;
         this.amount       = amount;
@@ -56,6 +63,7 @@ public class ShopProduct {
         this.sellConditions = sellConditions;
         this.buyAmounts   = buyAmounts  != null ? buyAmounts  : Collections.emptyList();
         this.sellAmounts  = sellAmounts != null ? sellAmounts : Collections.emptyList();
+        this.giveItem     = giveItem;
     }
 
     /** Unique ID of this product within its shop. */
@@ -85,6 +93,7 @@ public class ShopProduct {
 
     public boolean hasMultipleBuyAmounts()  { return !buyAmounts.isEmpty(); }
     public boolean hasMultipleSellAmounts() { return !sellAmounts.isEmpty(); }
+    public boolean isGiveItem() { return giveItem; }
 
     public List<Integer> getBuyAmounts()  { return buyAmounts; }
     public List<Integer> getSellAmounts() { return sellAmounts; }

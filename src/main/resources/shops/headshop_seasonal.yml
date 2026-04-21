@@ -1,0 +1,175 @@
+shop-name: "<gradient:#f97316:#a78bfa>Seasonal Head Shop</gradient>"
+title: "<dark_gray>[ <gradient:#f97316:#a78bfa>Seasonal Head Shop</gradient> <dark_gray>]"
+rows: 6
+admin-shop: true
+open-permission: ""
+
+filler:
+  material: ORANGE_STAINED_GLASS_PANE
+  name: " "
+
+# 6 seasonal crates — centered in rows 3 and 4
+layout:
+  - "F F F F F F F F F"
+  - "F F F F F F F F F"
+  - "F F F a b c F F F"
+  - "F F F d e f F F F"
+  - "F F F F F F F F F"
+  - "F F F F F F F F F"
+
+products:
+  a:
+    give-item: false
+    item:
+      material: CARVED_PUMPKIN
+      name: "<gradient:#f97316:#7c3aed>✦ Halloween Crate ✦</gradient>"
+      lore:
+        - "<gray>Spooky heads for the Halloween season."
+        - "<dark_orange>Available: Oct 1 – Nov 15"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give halloween {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  b:
+    give-item: false
+    item:
+      material: SNOWBALL
+      name: "<gradient:#ef4444:#22c55e>✦ Christmas Crate ✦</gradient>"
+      lore:
+        - "<gray>Festive heads for the holiday season."
+        - "<aqua>Available: Dec 1 – Jan 31"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give christmas {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  c:
+    give-item: false
+    item:
+      material: POPPY
+      name: "<gradient:#f43f5e:#fb7185>✦ Valentine Crate ✦</gradient>"
+      lore:
+        - "<gray>Love and romance-themed heads."
+        - "<light_purple>Available: Feb 1 – Feb 21"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give valentine {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  d:
+    give-item: false
+    item:
+      material: EGG
+      name: "<gradient:#facc15:#86efac>✦ Easter Crate ✦</gradient>"
+      lore:
+        - "<gray>Easter eggs and springtime heads."
+        - "<yellow>Available: Mar 20 – Apr 20"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give easter {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  e:
+    give-item: false
+    item:
+      material: LIME_DYE
+      name: "<gradient:#16a34a:#86efac>✦ St. Patrick's Crate ✦</gradient>"
+      lore:
+        - "<gray>Lucky clovers and Irish-themed heads."
+        - "<green>Available: Mar 10 – Mar 20"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give st_patricks {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  f:
+    give-item: false
+    item:
+      material: COOKED_CHICKEN
+      name: "<gradient:#f97316:#92400e>✦ Thanksgiving Crate ✦</gradient>"
+      lore:
+        - "<gray>Harvest and Thanksgiving-themed heads."
+        - "<gold>Available: Nov 15 – Nov 30"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give thanksgiving {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
