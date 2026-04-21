@@ -32,6 +32,8 @@ public class ShopManager {
         if (!shopsDir.exists()) {
             shopsDir.mkdirs();
             plugin.saveResource("shops/example.yml", false);
+            plugin.saveResource("shops/headshop_standard.yml", false);
+            plugin.saveResource("shops/headshop_seasonal.yml", false);
         }
 
         File[] files = shopsDir.listFiles((dir, name) -> name.endsWith(".yml"));
@@ -117,10 +119,13 @@ public class ShopManager {
         List<Integer> buyAmounts  = ps.getIntegerList("buy-amounts");
         List<Integer> sellAmounts = ps.getIntegerList("sell-amounts");
 
+        // give-item: false suppresses automatic item delivery (use buy actions instead)
+        boolean giveItem = ps.getBoolean("give-item", true);
+
         return new ShopProduct(key, display, amount,
                 buyPrices, sellPrices, limits,
                 buyActions, sellActions, buyConditions, sellConditions,
-                buyAmounts, sellAmounts);
+                buyAmounts, sellAmounts, giveItem);
     }
 
     private List<ShopPrice> loadPrices(ConfigurationSection ps, String node) {

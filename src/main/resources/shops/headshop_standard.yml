@@ -1,0 +1,676 @@
+shop-name: "<gradient:#6366f1:#a78bfa>Head Crate Shop</gradient>"
+title: "<dark_gray>[ <gradient:#6366f1:#a78bfa>Head Crate Shop</gradient> <dark_gray>]"
+rows: 6
+admin-shop: true
+open-permission: ""
+
+filler:
+  material: PURPLE_STAINED_GLASS_PANE
+  name: " "
+
+# 26 year-round head crates — rows 2-5 (7 per row), row 5 centered with 5 items
+layout:
+  - "F F F F F F F F F"
+  - "F a b c d e f g F"
+  - "F h i j k l m n F"
+  - "F o p q r s t u F"
+  - "F F v w x y z F F"
+  - "F F F F F F F F F"
+
+products:
+  # Row 2
+  a:
+    give-item: false
+    item:
+      material: NAME_TAG
+      name: "<white>✦ Alphanumeric Crate ✦</white>"
+      lore:
+        - "<gray>Letters, numbers, and symbols."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give alphanumeric {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  b:
+    give-item: false
+    item:
+      material: BONE
+      name: "<green>✦ Animal Crate ✦</green>"
+      lore:
+        - "<gray>All kinds of animals."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give animals {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  c:
+    give-item: false
+    item:
+      material: BOOK
+      name: "<gradient:#ef4444:#f97316>✦ Anime Crate ✦</gradient>"
+      lore:
+        - "<gray>Naruto, Pokémon, Dragon Ball, and more."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 600.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give anime {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  d:
+    give-item: false
+    item:
+      material: STONE
+      name: "<gray>✦ Block Crate ✦</gray>"
+      lore:
+        - "<gray>Pixel art and block-style heads."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 400.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give blocks {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  e:
+    give-item: false
+    item:
+      material: PAINTING
+      name: "<gold>✦ Decoration Crate ✦</gold>"
+      lore:
+        - "<gray>Decorative heads for your builds."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give decoration {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  f:
+    give-item: false
+    item:
+      material: BONE
+      name: "<gradient:#84cc16:#a16207>✦ Dinosaur Crate ✦</gradient>"
+      lore:
+        - "<gray>Prehistoric creatures."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give dinosaur {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  g:
+    give-item: false
+    item:
+      material: ENCHANTED_BOOK
+      name: "<gradient:#7c3aed:#a78bfa>✦ Fantasy Crate ✦</gradient>"
+      lore:
+        - "<gray>Dragons, wizards, and magic."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 600.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give fantasy {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  # Row 3
+  h:
+    give-item: false
+    item:
+      material: PAPER
+      name: "<gradient:#ef4444:#3b82f6>✦ Flag Crate ✦</gradient>"
+      lore:
+        - "<gray>Country flags and banners."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 400.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give flags {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  i:
+    give-item: false
+    item:
+      material: APPLE
+      name: "<gradient:#f97316:#ef4444>✦ Food & Drink Crate ✦</gradient>"
+      lore:
+        - "<gray>Tasty food and drink heads."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give food_and_drink {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  j:
+    give-item: false
+    item:
+      material: OAK_LOG
+      name: "<gradient:#92400e:#d97706>✦ Furniture Crate ✦</gradient>"
+      lore:
+        - "<gray>Chairs, tables, and home decor."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give furniture {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  k:
+    give-item: false
+    item:
+      material: LEATHER_CHESTPLATE
+      name: "<light_purple>✦ Humanoid Crate ✦</light_purple>"
+      lore:
+        - "<gray>Humanoid and character heads."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give humanoid {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  l:
+    give-item: false
+    item:
+      material: LEATHER_HELMET
+      name: "<aqua>✦ Human Crate ✦</aqua>"
+      lore:
+        - "<gray>Realistic human faces."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give humans {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  m:
+    give-item: false
+    item:
+      material: SPIDER_EYE
+      name: "<gradient:#a3e635:#facc15>✦ Insect Crate ✦</gradient>"
+      lore:
+        - "<gray>Bugs, beetles, and creepy crawlies."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 400.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give insects {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  n:
+    give-item: false
+    item:
+      material: CHEST
+      name: "<dark_gray>✦ Miscellaneous Crate ✦</dark_gray>"
+      lore:
+        - "<gray>A bit of everything."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 400.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give miscellaneous {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  # Row 4
+  o:
+    give-item: false
+    item:
+      material: ROTTEN_FLESH
+      name: "<gradient:#dc2626:#7f1d1d>✦ Monster Crate ✦</gradient>"
+      lore:
+        - "<gray>Creepy monsters and undead."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give monsters {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  p:
+    give-item: false
+    item:
+      material: TOTEM_OF_UNDYING
+      name: "<gradient:#f59e0b:#fbbf24>✦ Mythology Crate ✦</gradient>"
+      lore:
+        - "<gray>Gods, heroes, and legends."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 600.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give mythology {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  q:
+    give-item: false
+    item:
+      material: COD
+      name: "<gradient:#0ea5e9:#06b6d4>✦ Ocean Crate ✦</gradient>"
+      lore:
+        - "<gray>Fish, sharks, coral, and the deep sea."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give ocean {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  r:
+    give-item: false
+    item:
+      material: OAK_SAPLING
+      name: "<gradient:#22c55e:#86efac>✦ Nature Crate ✦</gradient>"
+      lore:
+        - "<gray>Plants, flowers, trees, and nature."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give plants {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  s:
+    give-item: false
+    item:
+      material: PINK_WOOL
+      name: "<gradient:#f9a8d4:#c084fc>✦ Plushie Crate ✦</gradient>"
+      lore:
+        - "<gray>Cute plushie and stuffed animal heads."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give plushie {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  t:
+    give-item: false
+    item:
+      material: NETHER_STAR
+      name: "<gradient:#ef4444:#facc15>✦ Pokémon Crate ✦</gradient>"
+      lore:
+        - "<gray>Gotta collect 'em all!"
+        - "<dark_purple>★ 50% double-reward on Pokémon Day (Feb 27)"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give pokemon {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  u:
+    give-item: false
+    item:
+      material: ENDER_PEARL
+      name: "<gradient:#6366f1:#f59e0b:#22c55e>✦ Mystery Head Crate ✦</gradient>"
+      lore:
+        - "<gray>Completely random head from the entire HDB database."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 350.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give random {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  # Row 5 (centered)
+  v:
+    give-item: false
+    item:
+      material: ENDER_EYE
+      name: "<gradient:#1e1b4b:#818cf8>✦ Space Crate ✦</gradient>"
+      lore:
+        - "<gray>Astronauts, aliens, planets, and rockets."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 600.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give space {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  w:
+    give-item: false
+    item:
+      material: BLAZE_ROD
+      name: "<gradient:#1d4ed8:#facc15>✦ Star Wars Crate ✦</gradient>"
+      lore:
+        - "<gray>A long time ago, in a galaxy far, far away..."
+        - "<dark_purple>★ 50% double-reward on May the 4th"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 750.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give star_wars {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  x:
+    give-item: false
+    item:
+      material: MINECART
+      name: "<gray>✦ Vehicle Crate ✦</gray>"
+      lore:
+        - "<gray>Cars, trains, planes, and boats."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give vehicles {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  y:
+    give-item: false
+    item:
+      material: EMERALD
+      name: "<gradient:#16a34a:#854d0e>✦ Villager Crate ✦</gradient>"
+      lore:
+        - "<gray>Trading villagers and their variants."
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give villager {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"
+
+  z:
+    give-item: false
+    item:
+      material: SNOWBALL
+      name: "<gradient:#bfdbfe:#93c5fd>✦ Winter Crate ✦</gradient>"
+      lore:
+        - "<gray>Snow, ice, and winter wonderland heads."
+        - "<dark_purple>★ 5% double-reward Dec 1 – Jan 31"
+        - ""
+        - "<yellow>Left-click to purchase"
+        - "<yellow>Price: <gold>{buy_price}"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+    limits:
+      personal-buy: -1
+      personal-sell: -1
+      global-buy: -1
+      global-sell: -1
+      reset: NEVER
+    actions:
+      buy:
+        - "[console] lofibox give winter {player} 1"
+        - "[sound] ENTITY_EXPERIENCE_ORB_PICKUP"

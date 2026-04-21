@@ -223,10 +223,12 @@ public class MenuListener implements Listener {
             econ.withdraw(player, price.getAmount() * amount);
         }
 
-        // Give item
-        ItemStack reward = product.getDisplayItem();
-        reward.setAmount(amount);
-        player.getInventory().addItem(reward);
+        // Give item (skipped when give-item: false — buy actions handle delivery)
+        if (product.isGiveItem()) {
+            ItemStack reward = product.getDisplayItem();
+            reward.setAmount(amount);
+            player.getInventory().addItem(reward);
+        }
 
         // Record limit
         plugin.getLimitManager().recordBuy(player, shop.getId(), product, amount);
