@@ -78,7 +78,7 @@
         <dependency>
             <groupId>dev.lofibox</groupId>
             <artifactId>LofiBox</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
