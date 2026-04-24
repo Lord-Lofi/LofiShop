@@ -1,0 +1,204 @@
+shop-name: "<aqua>Minerals"
+title: "<dark_gray>[ <aqua>Minerals</aqua> ]"
+rows: 4
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e f F F F"
+  - "g h i j k l m n F"
+  - "F F F F F F F F F"
+
+# All block prices are 9× their ingot/gem counterpart (1 block = 9 ingots/gems in crafting)
+# Amethyst block = 4 amethyst shards (2x2 craft)
+#
+# iron_block — buy $108   | sell $63    (9x iron_ingot: $12/$7)
+# gold_block — buy $540   | sell $90    (9x gold_ingot: $60/$10)
+# diamond_block — buy $2250 | sell $450 (9x diamond: $250/$50)
+# lapis_block — buy $90   | sell $18    (9x lapis: $10/$2)
+# redstone_block — buy $18/item | sell $4.50/item (9x redstone: $2/$0.50 → sell [2,4,8,16])
+# emerald_block — buy $3150 | sell $540 (9x emerald: $350/$60)
+# copper_block — buy $45  | sell $9     (9x copper_ingot: $5/$1)
+# coal_block — buy $45    | sell $9     (9x coal: $5/$1)
+# netherite_block — buy $45000 | sell $18000 (9x netherite_ingot: $5000/$2000)
+# raw_iron_block — buy $72  | sell $36  (9x raw_iron: $8/$4)
+# raw_gold_block — buy $360 | sell $72  (9x raw_gold: $40/$8)
+# raw_copper_block — buy $27 | sell $4.50/item → sell [2,4,8] (9x raw_copper: $3/$0.50)
+# amethyst_block — buy $80  | sell $16  (4x amethyst_shard: $20/$4, buy/sell [1,4,8,16])
+
+products:
+  a:
+    item:
+      material: IRON_BLOCK
+      name: "<gray>Iron Block"
+    buy-price:
+      - type: vault
+        amount: 108.0
+    sell-price:
+      - type: vault
+        amount: 63.0
+    amount: 1
+
+  b:
+    item:
+      material: GOLD_BLOCK
+      name: "<gold>Gold Block"
+    buy-price:
+      - type: vault
+        amount: 540.0
+    sell-price:
+      - type: vault
+        amount: 90.0
+    amount: 1
+
+  c:
+    item:
+      material: DIAMOND_BLOCK
+      name: "<aqua>Diamond Block"
+    buy-price:
+      - type: vault
+        amount: 2250.0
+    sell-price:
+      - type: vault
+        amount: 450.0
+    amount: 1
+
+  d:
+    item:
+      material: LAPIS_BLOCK
+      name: "<blue>Lapis Block"
+    buy-price:
+      - type: vault
+        amount: 90.0
+    sell-price:
+      - type: vault
+        amount: 18.0
+    amount: 1
+
+  e:
+    item:
+      material: REDSTONE_BLOCK
+      name: "<red>Redstone Block"
+    buy-price:
+      - type: vault
+        amount: 18.0
+    sell-price:
+      - type: vault
+        amount: 4.5
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [2, 4, 8, 16]
+
+  f:
+    item:
+      material: EMERALD_BLOCK
+      name: "<green>Emerald Block"
+    buy-price:
+      - type: vault
+        amount: 3150.0
+    sell-price:
+      - type: vault
+        amount: 540.0
+    amount: 1
+
+  g:
+    item:
+      material: COPPER_BLOCK
+      name: "<gold>Copper Block"
+    buy-price:
+      - type: vault
+        amount: 45.0
+    sell-price:
+      - type: vault
+        amount: 9.0
+    amount: 1
+
+  h:
+    item:
+      material: COAL_BLOCK
+      name: "<dark_gray>Coal Block"
+    buy-price:
+      - type: vault
+        amount: 45.0
+    sell-price:
+      - type: vault
+        amount: 9.0
+    amount: 1
+
+  i:
+    item:
+      material: NETHERITE_BLOCK
+      name: "<dark_gray>Netherite Block"
+    buy-price:
+      - type: vault
+        amount: 45000.0
+    sell-price:
+      - type: vault
+        amount: 18000.0
+    amount: 1
+
+  j:
+    item:
+      material: RAW_IRON_BLOCK
+      name: "<gray>Raw Iron Block"
+    buy-price:
+      - type: vault
+        amount: 72.0
+    sell-price:
+      - type: vault
+        amount: 36.0
+    amount: 1
+
+  k:
+    item:
+      material: RAW_GOLD_BLOCK
+      name: "<gold>Raw Gold Block"
+    buy-price:
+      - type: vault
+        amount: 360.0
+    sell-price:
+      - type: vault
+        amount: 72.0
+    amount: 1
+
+  l:
+    item:
+      material: RAW_COPPER_BLOCK
+      name: "<gold>Raw Copper Block"
+    buy-price:
+      - type: vault
+        amount: 27.0
+    sell-price:
+      - type: vault
+        amount: 4.5
+    amount: 1
+    sell-amounts: [2, 4, 8]
+
+  m:
+    item:
+      material: AMETHYST_BLOCK
+      name: "<light_purple>Amethyst Block"
+    buy-price:
+      - type: vault
+        amount: 80.0
+    sell-price:
+      - type: vault
+        amount: 16.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  n:
+    item:
+      material: QUARTZ_BLOCK
+      name: "<white>Quartz Block"
+    buy-price:
+      - type: vault
+        amount: 20.0
+    sell-price:
+      - type: vault
+        amount: 4.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]

@@ -1,0 +1,292 @@
+shop-name: "<green>Wood & Leaves"
+title: "<dark_gray>[ <green>Wood & Leaves</green> ]"
+rows: 5
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e f g h i"
+  - "j k l m n o p q r"
+  - "s F F F F F F F F"
+  - "F F F F F F F F F"
+
+# All logs — buy $4/item | sell $0.25/item
+#   buy-amounts [1,8,16,64]  →  $4 / $32 / $64 / $256
+#   sell-amounts [4,16,64]   →  $1 / $4  / $16
+# All leaves — buy $1.875/item | sell $0.25/item
+#   buy-amounts [8,16,64]    →  $15 / $30 / $120
+#   sell-amounts [4,16,64]   →  $1  / $4  / $16
+# Bamboo — buy $2/item | sell $0.25/item
+#   buy-amounts [1,8,16,64]  →  $2 / $16 / $32 / $128
+#   sell-amounts [4,16,64]   →  $1 / $4  / $16
+
+products:
+  # ── Logs ─────────────────────────────────────────────────────────────────────
+  a:
+    item:
+      material: OAK_LOG
+      name: "<white>Oak Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  b:
+    item:
+      material: ACACIA_LOG
+      name: "<white>Acacia Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  c:
+    item:
+      material: SPRUCE_LOG
+      name: "<white>Spruce Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  d:
+    item:
+      material: BIRCH_LOG
+      name: "<white>Birch Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  e:
+    item:
+      material: JUNGLE_LOG
+      name: "<white>Jungle Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  f:
+    item:
+      material: DARK_OAK_LOG
+      name: "<white>Dark Oak Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  g:
+    item:
+      material: MANGROVE_LOG
+      name: "<dark_red>Mangrove Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  h:
+    item:
+      material: CHERRY_LOG
+      name: "<light_purple>Cherry Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  i:
+    item:
+      material: PALE_OAK_LOG
+      name: "<white>Pale Oak Log"
+    buy-price:
+      - type: vault
+        amount: 4.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  # ── Leaves ────────────────────────────────────────────────────────────────────
+  j:
+    item:
+      material: OAK_LEAVES
+      name: "<green>Oak Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  k:
+    item:
+      material: DARK_OAK_LEAVES
+      name: "<green>Dark Oak Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  l:
+    item:
+      material: SPRUCE_LEAVES
+      name: "<green>Spruce Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  m:
+    item:
+      material: BIRCH_LEAVES
+      name: "<green>Birch Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  n:
+    item:
+      material: JUNGLE_LEAVES
+      name: "<green>Jungle Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  o:
+    item:
+      material: ACACIA_LEAVES
+      name: "<green>Acacia Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  p:
+    item:
+      material: MANGROVE_LEAVES
+      name: "<dark_green>Mangrove Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  q:
+    item:
+      material: CHERRY_LEAVES
+      name: "<light_purple>Cherry Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  r:
+    item:
+      material: PALE_OAK_LEAVES
+      name: "<white>Pale Oak Leaves"
+    buy-price:
+      - type: vault
+        amount: 1.875
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [8, 16, 64]
+    sell-amounts: [4, 16, 64]
+
+  # ── Bamboo ────────────────────────────────────────────────────────────────────
+  s:
+    item:
+      material: BAMBOO
+      name: "<green>Bamboo"
+    buy-price:
+      - type: vault
+        amount: 2.0
+    sell-price:
+      - type: vault
+        amount: 0.25
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [4, 16, 64]
