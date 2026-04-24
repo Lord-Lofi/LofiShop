@@ -1,0 +1,87 @@
+shop-name: "<dark_aqua>Deep Dark"
+title: "<dark_gray>[ <dark_aqua>Deep Dark</dark_aqua> ]"
+rows: 3
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e F F F F"
+  - "F F F F F F F F F"
+
+# sculk — buy $5/item           | sell $1/item    (buy [1,8,16,64], sell [1,8,16,64])
+# sculk_sensor — buy $50/item   | sell $10/item   (buy [1,4,8,16], sell [1,4,8,16])
+# sculk_catalyst — buy $200/item | sell $40/item  (buy [1,4,8], sell [1,4,8])
+# sculk_shrieker — buy $150/item | sell $30/item  (buy [1,4,8], sell [1,4,8])
+# echo_shard — buy $500/item    | sell $100/item  (buy [1,4,8], sell [1,4,8])
+
+products:
+  a:
+    item:
+      material: SCULK
+      name: "<dark_aqua>Sculk"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  b:
+    item:
+      material: SCULK_SENSOR
+      name: "<dark_aqua>Sculk Sensor"
+    buy-price:
+      - type: vault
+        amount: 50.0
+    sell-price:
+      - type: vault
+        amount: 10.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  c:
+    item:
+      material: SCULK_CATALYST
+      name: "<dark_aqua>Sculk Catalyst"
+    buy-price:
+      - type: vault
+        amount: 200.0
+    sell-price:
+      - type: vault
+        amount: 40.0
+    amount: 1
+    buy-amounts: [1, 4, 8]
+    sell-amounts: [1, 4, 8]
+
+  d:
+    item:
+      material: SCULK_SHRIEKER
+      name: "<dark_aqua>Sculk Shrieker"
+    buy-price:
+      - type: vault
+        amount: 150.0
+    sell-price:
+      - type: vault
+        amount: 30.0
+    amount: 1
+    buy-amounts: [1, 4, 8]
+    sell-amounts: [1, 4, 8]
+
+  e:
+    item:
+      material: ECHO_SHARD
+      name: "<dark_aqua>Echo Shard"
+    buy-price:
+      - type: vault
+        amount: 500.0
+    sell-price:
+      - type: vault
+        amount: 100.0
+    amount: 1
+    buy-amounts: [1, 4, 8]
+    sell-amounts: [1, 4, 8]

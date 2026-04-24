@@ -34,6 +34,17 @@ public class ShopManager {
             plugin.saveResource("shops/example.yml", false);
             plugin.saveResource("shops/headshop_standard.yml", false);
             plugin.saveResource("shops/headshop_seasonal.yml", false);
+            plugin.saveResource("shops/wood.yml", false);
+            plugin.saveResource("shops/terrain.yml", false);
+            plugin.saveResource("shops/nether.yml", false);
+            plugin.saveResource("shops/minerals.yml", false);
+            plugin.saveResource("shops/ingots.yml", false);
+            plugin.saveResource("shops/farming.yml", false);
+            plugin.saveResource("shops/mob_drops.yml", false);
+            plugin.saveResource("shops/fish.yml", false);
+            plugin.saveResource("shops/ocean.yml", false);
+            plugin.saveResource("shops/food.yml", false);
+            plugin.saveResource("shops/deep_dark.yml", false);
         }
 
         File[] files = shopsDir.listFiles((dir, name) -> name.endsWith(".yml"));

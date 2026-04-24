@@ -1,0 +1,295 @@
+shop-name: "<green>Farming"
+title: "<dark_gray>[ <green>Farming</green> ]"
+rows: 5
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e f g h i"
+  - "j k l m n o p q r"
+  - "s F F F F F F F F"
+  - "F F F F F F F F F"
+
+# wheat_seeds — buy $2/item    | sell $0.50/item  (buy [1,8,16,64], sell [2,16,64])
+# wheat — buy $8/item          | sell $2/item     (buy [1,8,16,64], sell [1,8,16,64])
+# carrot — buy $6/item         | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# potato — buy $6/item         | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# beetroot_seeds — buy $2/item | sell $0.50/item  (buy [1,8,16,64], sell [2,16,64])
+# sugar_cane — buy $5/item     | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# cactus — buy $5/item         | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# melon_slice — buy $3/item    | sell $0.50/item  (buy [1,8,16,64], sell [2,16,64])
+# pumpkin — buy $30/item       | sell $5/item     (buy [1,8,16,64], sell [1,8,16,64])
+# chorus_fruit — buy $50/item  | sell $10/item    (buy [1,4,8,16], sell [1,4,8,16])
+# beetroot — buy $5/item       | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# cocoa_beans — buy $10/item   | sell $2/item     (buy [1,8,16,64], sell [1,8,16,64])
+# sweet_berries — buy $5/item  | sell $1/item     (buy [1,8,16,64], sell [1,8,16,64])
+# glow_berries — buy $15/item  | sell $3/item     (buy [1,8,16,64], sell [1,8,16,64])
+# honey_bottle — buy $30/item  | sell $5/item     (buy [1,4,8,16], sell [1,4,8,16])
+
+products:
+  a:
+    item:
+      material: WHEAT_SEEDS
+      name: "<green>Wheat Seeds"
+    buy-price:
+      - type: vault
+        amount: 2.0
+    sell-price:
+      - type: vault
+        amount: 0.5
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [2, 16, 64]
+
+  b:
+    item:
+      material: WHEAT
+      name: "<yellow>Wheat"
+    buy-price:
+      - type: vault
+        amount: 8.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  c:
+    item:
+      material: CARROT
+      name: "<gold>Carrot"
+    buy-price:
+      - type: vault
+        amount: 6.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  d:
+    item:
+      material: POTATO
+      name: "<yellow>Potato"
+    buy-price:
+      - type: vault
+        amount: 6.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  e:
+    item:
+      material: BEETROOT_SEEDS
+      name: "<dark_red>Beetroot Seeds"
+    buy-price:
+      - type: vault
+        amount: 2.0
+    sell-price:
+      - type: vault
+        amount: 0.5
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [2, 16, 64]
+
+  f:
+    item:
+      material: SUGAR_CANE
+      name: "<green>Sugar Cane"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  g:
+    item:
+      material: CACTUS
+      name: "<green>Cactus"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  h:
+    item:
+      material: MELON_SLICE
+      name: "<green>Melon Slice"
+    buy-price:
+      - type: vault
+        amount: 3.0
+    sell-price:
+      - type: vault
+        amount: 0.5
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [2, 16, 64]
+
+  i:
+    item:
+      material: PUMPKIN
+      name: "<gold>Pumpkin"
+    buy-price:
+      - type: vault
+        amount: 30.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  j:
+    item:
+      material: CHORUS_FRUIT
+      name: "<dark_purple>Chorus Fruit"
+    buy-price:
+      - type: vault
+        amount: 50.0
+    sell-price:
+      - type: vault
+        amount: 10.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  k:
+    item:
+      material: BEETROOT
+      name: "<dark_red>Beetroot"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  l:
+    item:
+      material: COCOA_BEANS
+      name: "<dark_red>Cocoa Beans"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  m:
+    item:
+      material: SWEET_BERRIES
+      name: "<red>Sweet Berries"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  n:
+    item:
+      material: GLOW_BERRIES
+      name: "<gold>Glow Berries"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  o:
+    item:
+      material: HONEY_BOTTLE
+      name: "<gold>Honey Bottle"
+    buy-price:
+      - type: vault
+        amount: 30.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  p:
+    item:
+      material: POPPED_CHORUS_FRUIT
+      name: "<light_purple>Popped Chorus Fruit"
+    buy-price:
+      - type: vault
+        amount: 60.0
+    sell-price:
+      - type: vault
+        amount: 12.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  q:
+    item:
+      material: SUGAR
+      name: "<white>Sugar"
+    buy-price:
+      - type: vault
+        amount: 2.0
+    sell-price:
+      - type: vault
+        amount: 0.5
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [2, 8, 16, 64]
+
+  r:
+    item:
+      material: TORCHFLOWER_SEEDS
+      name: "<gold>Torchflower Seeds"
+    buy-price:
+      - type: vault
+        amount: 30.0
+    sell-price:
+      - type: vault
+        amount: 6.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  s:
+    item:
+      material: PITCHER_POD
+      name: "<blue>Pitcher Pod"
+    buy-price:
+      - type: vault
+        amount: 30.0
+    sell-price:
+      - type: vault
+        amount: 6.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]

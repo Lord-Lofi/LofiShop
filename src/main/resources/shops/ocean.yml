@@ -1,0 +1,144 @@
+shop-name: "<dark_aqua>Ocean"
+title: "<dark_gray>[ <dark_aqua>Ocean</dark_aqua> ]"
+rows: 3
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e f g h i"
+  - "F F F F F F F F F"
+
+# prismarine — buy $15/item        | sell $3/item    (buy [1,8,16,64], sell [1,8,16,64])
+# prismarine_bricks — buy $20/item | sell $4/item    (buy [1,8,16,64], sell [1,8,16,64])
+# dark_prismarine — buy $25/item   | sell $5/item    (buy [1,8,16,64], sell [1,8,16,64])
+# sea_lantern — buy $30/item       | sell $5/item    (buy [1,4,8,16], sell [1,4,8,16])
+# sponge — buy $100/item           | sell $20/item   (buy [1,4,8], sell [1,4,8])
+# heart_of_the_sea — buy $2000/item | sell $500/item (single, no tiers)
+# kelp — buy $1/item               | sell $0.125/item (buy [1,8,16,64], sell [8,16,64])
+# dried_kelp_block — buy $5/item   | sell $1/item    (buy [1,8,16,64], sell [1,8,16,64])
+
+products:
+  a:
+    item:
+      material: PRISMARINE
+      name: "<aqua>Prismarine"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  b:
+    item:
+      material: PRISMARINE_BRICKS
+      name: "<aqua>Prismarine Bricks"
+    buy-price:
+      - type: vault
+        amount: 20.0
+    sell-price:
+      - type: vault
+        amount: 4.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  c:
+    item:
+      material: DARK_PRISMARINE
+      name: "<dark_aqua>Dark Prismarine"
+    buy-price:
+      - type: vault
+        amount: 25.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  d:
+    item:
+      material: SEA_LANTERN
+      name: "<aqua>Sea Lantern"
+    buy-price:
+      - type: vault
+        amount: 30.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]
+
+  e:
+    item:
+      material: SPONGE
+      name: "<yellow>Sponge"
+    buy-price:
+      - type: vault
+        amount: 100.0
+    sell-price:
+      - type: vault
+        amount: 20.0
+    amount: 1
+    buy-amounts: [1, 4, 8]
+    sell-amounts: [1, 4, 8]
+
+  f:
+    item:
+      material: HEART_OF_THE_SEA
+      name: "<aqua>Heart of the Sea"
+    buy-price:
+      - type: vault
+        amount: 2000.0
+    sell-price:
+      - type: vault
+        amount: 500.0
+    amount: 1
+
+  g:
+    item:
+      material: KELP
+      name: "<green>Kelp"
+    buy-price:
+      - type: vault
+        amount: 1.0
+    sell-price:
+      - type: vault
+        amount: 0.125
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [8, 16, 64]
+
+  h:
+    item:
+      material: DRIED_KELP_BLOCK
+      name: "<dark_green>Dried Kelp Block"
+    buy-price:
+      - type: vault
+        amount: 5.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  i:
+    item:
+      material: GLOW_INK_SAC
+      name: "<green>Glow Ink Sac"
+    buy-price:
+      - type: vault
+        amount: 20.0
+    sell-price:
+      - type: vault
+        amount: 5.0
+    amount: 1
+    buy-amounts: [1, 4, 8, 16]
+    sell-amounts: [1, 4, 8, 16]

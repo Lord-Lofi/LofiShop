@@ -1,0 +1,223 @@
+shop-name: "<gold>Food"
+title: "<dark_gray>[ <gold>Food</gold> ]"
+rows: 4
+admin-shop: true
+open-permission: ""
+
+layout:
+  - "F F F F F F F F F"
+  - "a b c d e f g h i"
+  - "j k l m n F F F F"
+  - "F F F F F F F F F"
+
+# beef — buy $10/item          | sell $2/item    (buy [1,8,16,64], sell [1,8,16,64])
+# cooked_beef — buy $15/item   | sell $3/item    (buy [1,8,16,64], sell [1,8,16,64])
+# porkchop — buy $10/item      | sell $2/item    (buy [1,8,16,64], sell [1,8,16,64])
+# cooked_porkchop — buy $15/item | sell $3/item  (buy [1,8,16,64], sell [1,8,16,64])
+# chicken — buy $8/item        | sell $1/item    (buy [1,8,16,64], sell [1,8,16,64])
+# cooked_chicken — buy $12/item | sell $2/item   (buy [1,8,16,64], sell [1,8,16,64])
+# mutton — buy $10/item        | sell $2/item    (buy [1,8,16,64], sell [1,8,16,64])
+# cooked_mutton — buy $15/item | sell $3/item    (buy [1,8,16,64], sell [1,8,16,64])
+# rabbit — buy $10/item        | sell $2/item    (buy [1,8,16,64], sell [1,8,16,64])
+# cooked_rabbit — buy $15/item | sell $3/item    (buy [1,8,16,64], sell [1,8,16,64])
+# apple — buy $10/item         | sell $2/item    (buy [1,8,16,64], sell [1,8,16,64])
+# red_mushroom — buy $8/item   | sell $1/item    (buy [1,8,16,64], sell [1,8,16,64])
+# brown_mushroom — buy $8/item | sell $1/item    (buy [1,8,16,64], sell [1,8,16,64])
+# dried_kelp — buy $2/item     | sell $0.50/item (buy [1,8,16,64], sell [2,8,16,64])
+
+products:
+  a:
+    item:
+      material: BEEF
+      name: "<dark_red>Raw Beef"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  b:
+    item:
+      material: COOKED_BEEF
+      name: "<dark_red>Steak"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  c:
+    item:
+      material: PORKCHOP
+      name: "<white>Raw Porkchop"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  d:
+    item:
+      material: COOKED_PORKCHOP
+      name: "<gold>Cooked Porkchop"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  e:
+    item:
+      material: CHICKEN
+      name: "<white>Raw Chicken"
+    buy-price:
+      - type: vault
+        amount: 8.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  f:
+    item:
+      material: COOKED_CHICKEN
+      name: "<yellow>Cooked Chicken"
+    buy-price:
+      - type: vault
+        amount: 12.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  g:
+    item:
+      material: MUTTON
+      name: "<gray>Raw Mutton"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  h:
+    item:
+      material: COOKED_MUTTON
+      name: "<gold>Cooked Mutton"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  i:
+    item:
+      material: RABBIT
+      name: "<dark_red>Raw Rabbit"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  j:
+    item:
+      material: COOKED_RABBIT
+      name: "<gold>Cooked Rabbit"
+    buy-price:
+      - type: vault
+        amount: 15.0
+    sell-price:
+      - type: vault
+        amount: 3.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  k:
+    item:
+      material: APPLE
+      name: "<red>Apple"
+    buy-price:
+      - type: vault
+        amount: 10.0
+    sell-price:
+      - type: vault
+        amount: 2.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  l:
+    item:
+      material: RED_MUSHROOM
+      name: "<red>Red Mushroom"
+    buy-price:
+      - type: vault
+        amount: 8.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  m:
+    item:
+      material: BROWN_MUSHROOM
+      name: "<gold>Brown Mushroom"
+    buy-price:
+      - type: vault
+        amount: 8.0
+    sell-price:
+      - type: vault
+        amount: 1.0
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [1, 8, 16, 64]
+
+  n:
+    item:
+      material: DRIED_KELP
+      name: "<dark_green>Dried Kelp"
+    buy-price:
+      - type: vault
+        amount: 2.0
+    sell-price:
+      - type: vault
+        amount: 0.5
+    amount: 1
+    buy-amounts: [1, 8, 16, 64]
+    sell-amounts: [2, 8, 16, 64]
