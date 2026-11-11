@@ -15,7 +15,7 @@ env:
   # LofiBox isn't published to a Maven repository, so CI builds and installs it first.
   # Pinned to a tag so LofiShop's build doesn't change when LofiBox's main branch moves.
   # Update this together with the LofiBox version in pom.xml.
-  LOFIBOX_REF: "1.5.5"
+  LOFIBOX_REF: "1.6.0"
 
 jobs:
   build:
@@ -35,11 +35,11 @@ jobs:
           path: .deps/LofiBox
           persist-credentials: false
 
-      - name: Set up Java 21
+      - name: Set up Java 25
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
           cache: maven
 
       - name: Install LofiBox into the local Maven repository

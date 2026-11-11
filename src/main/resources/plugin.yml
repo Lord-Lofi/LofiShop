@@ -1,7 +1,7 @@
 name: LofiShop
 version: '${project.version}'
 main: dev.lofishop.LofiShop
-api-version: '1.21'
+api-version: '26.3'
 description: A powerful, configurable shop plugin.
 authors: [ LofiShop ]
 website: https://github.com/Lord-Lofi/LofiShop

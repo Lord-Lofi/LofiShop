@@ -30,7 +30,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
     public @NotNull String getAuthor() { return "LofiShop"; }
 
     @Override
-    public @NotNull String getVersion() { return plugin.getDescription().getVersion(); }
+    public @NotNull String getVersion() { return plugin.getPluginMeta().getVersion(); }
 
     @Override
     public boolean persist() { return true; }

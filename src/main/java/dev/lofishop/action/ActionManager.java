@@ -3,7 +3,7 @@ package dev.lofishop.action;
 import dev.lofishop.LofiShop;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
-import org.bukkit.Sound;
+import dev.lofishop.util.SoundUtil;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -66,11 +66,8 @@ public class ActionManager {
             player.showTitle(title);
 
         } else if (action.startsWith("[sound]")) {
-            String soundName = action.substring("[sound]".length()).trim().toUpperCase();
-            try {
-                Sound sound = Sound.valueOf(soundName);
-                player.playSound(player.getLocation(), sound, 1.0f, 1.0f);
-            } catch (IllegalArgumentException e) {
+            String soundName = action.substring("[sound]".length()).trim();
+            if (!SoundUtil.play(player, soundName)) {
                 plugin.getLogger().warning("Unknown sound: " + soundName);
             }
 
