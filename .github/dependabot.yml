@@ -1,0 +1,12 @@
+# Weekly pull requests to keep dependencies current.
+# Dependabot can't look up LofiBox (it isn't in a public Maven repository); update that by hand.
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
