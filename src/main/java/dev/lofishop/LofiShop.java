@@ -100,7 +100,7 @@ public final class LofiShop extends JavaPlugin {
             getLogger().info("PlaceholderAPI hook registered.");
         }
 
-        getLogger().info("LofiShop v" + getDescription().getVersion() + " enabled.");
+        getLogger().info("LofiShop v" + getPluginMeta().getVersion() + " enabled.");
     }
 
     @Override
