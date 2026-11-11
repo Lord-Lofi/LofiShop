@@ -23,12 +23,12 @@ jobs:
 
     steps:
       - name: Check out LofiShop
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Check out LofiBox
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: Lord-Lofi/LofiBox
           ref: ${{ env.LOFIBOX_REF }}
@@ -49,7 +49,7 @@ jobs:
         run: mvn -B -ntp package
 
       - name: Upload the plugin JAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: LofiShop
           path: target/LofiShop-*.jar
