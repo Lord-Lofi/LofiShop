@@ -10,16 +10,16 @@ public class ShopCreatorSession {
 
     public enum State {
         MAIN_EDITOR,            // main shop editor GUI open
-        AWAITING_SHOP_NAME,     // player typing shop name in chat
-        AWAITING_SHOP_ID,       // player typing shop file ID in chat
+        AWAITING_SHOP_NAME,     // player entering shop name in the input window
+        AWAITING_SHOP_ID,       // player entering shop file ID in the input window
         PRODUCT_EDITOR,         // product editor GUI open
-        AWAITING_BUY_PRICE,     // player typing buy price in chat
-        AWAITING_SELL_PRICE,    // player typing sell price in chat
-        AWAITING_AMOUNT,        // player typing default amount in chat
-        AWAITING_BUY_TIERS,     // player typing comma-separated buy amounts in chat
-        AWAITING_SELL_TIERS,    // player typing comma-separated sell amounts in chat
-        AWAITING_BUY_LIMIT,     // player typing personal buy limit in chat
-        AWAITING_SELL_LIMIT     // player typing personal sell limit in chat
+        AWAITING_BUY_PRICE,     // player entering buy price in the input window
+        AWAITING_SELL_PRICE,    // player entering sell price in the input window
+        AWAITING_AMOUNT,        // player entering default amount in the input window
+        AWAITING_BUY_TIERS,     // player entering comma-separated buy amounts in the input window
+        AWAITING_SELL_TIERS,    // player entering comma-separated sell amounts in the input window
+        AWAITING_BUY_LIMIT,     // player entering personal buy limit in the input window
+        AWAITING_SELL_LIMIT     // player entering personal sell limit in the input window
     }
 
     // ── Shop-level fields ─────────────────────────────────────────────────────

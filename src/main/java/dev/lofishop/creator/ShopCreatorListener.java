@@ -11,20 +11,21 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles all interactions with the shop creator wizard:
  * - Wand right-click → open wizard
  * - GUI clicks in main editor and product editor
  * - Drag-and-drop item into product slot
- * - Chat input capture for text fields
+ * - Pop-up input windows (Paper dialogs) for text fields
  */
 public class ShopCreatorListener implements Listener {
 
@@ -80,12 +81,16 @@ public class ShopCreatorListener implements Listener {
                                         int slot, boolean shift) {
         switch (slot) {
             case ShopCreatorGui.SLOT_NAME -> {
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_SHOP_NAME,
-                        "<gold>Type the <white>shop display name <gold>in chat. <gray>(e.g. My Shop)");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_SHOP_NAME,
+                        "<gold>Shop display name",
+                        "<gray>The name shown at the top of the shop. <dark_gray>e.g. My Shop",
+                        session.getShopName());
             }
             case ShopCreatorGui.SLOT_ID -> {
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_SHOP_ID,
-                        "<gold>Type the <white>shop file ID <gold>in chat. <gray>(e.g. my_shop — no spaces)");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_SHOP_ID,
+                        "<gold>Shop file ID",
+                        "<gray>Used for the shop's file name. No spaces. <dark_gray>e.g. my_shop",
+                        session.getShopId());
             }
             case ShopCreatorGui.SLOT_ROWS -> {
                 session.setRows(session.getRows() % 6 + 1);
@@ -193,26 +198,40 @@ public class ShopCreatorListener implements Listener {
 
         switch (slot) {
             case ProductEditorGui.SLOT_BUY_PRICE ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_BUY_PRICE,
-                        "<gold>Type the <white>buy price <gold>in chat. <gray>Type 'none' to disable.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_BUY_PRICE,
+                        "<gold>Buy price",
+                        "<gray>What players pay to buy this item. Leave empty to disable buying.",
+                        priceText(draft.getBuyPrice()));
             case ProductEditorGui.SLOT_SELL_PRICE ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_SELL_PRICE,
-                        "<gold>Type the <white>sell price <gold>in chat. <gray>Type 'none' to disable.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_SELL_PRICE,
+                        "<gold>Sell price",
+                        "<gray>What players get for selling this item. Leave empty to disable selling.",
+                        priceText(draft.getSellPrice()));
             case ProductEditorGui.SLOT_AMOUNT ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_AMOUNT,
-                        "<gold>Type the <white>default amount <gold>in chat. <gray>(e.g. 1, 8, 64)");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_AMOUNT,
+                        "<gold>Default amount",
+                        "<gray>How many items one purchase or sale is for. <dark_gray>e.g. 1, 8, 64",
+                        String.valueOf(draft.getAmount()));
             case ProductEditorGui.SLOT_BUY_TIERS ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_BUY_TIERS,
-                        "<gold>Type <white>buy tier amounts <gold>comma-separated. <gray>(e.g. 1,8,16,64) Type 'none' to clear.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_BUY_TIERS,
+                        "<gold>Buy amounts",
+                        "<gray>Amount options for buying, separated by commas. Leave empty to clear. <dark_gray>e.g. 1,8,16,64",
+                        tiersText(draft.getBuyAmounts()));
             case ProductEditorGui.SLOT_SELL_TIERS ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_SELL_TIERS,
-                        "<gold>Type <white>sell tier amounts <gold>comma-separated. <gray>(e.g. 1,8,16,64) Type 'none' to clear.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_SELL_TIERS,
+                        "<gold>Sell amounts",
+                        "<gray>Amount options for selling, separated by commas. Leave empty to clear. <dark_gray>e.g. 1,8,16,64",
+                        tiersText(draft.getSellAmounts()));
             case ProductEditorGui.SLOT_BUY_LIMIT ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_BUY_LIMIT,
-                        "<gold>Type <white>personal buy limit <gold>in chat. <gray>-1 = unlimited.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_BUY_LIMIT,
+                        "<gold>Personal buy limit",
+                        "<gray>How many each player can buy per reset. -1 = unlimited.",
+                        String.valueOf(draft.getPersonalBuyLimit()));
             case ProductEditorGui.SLOT_SELL_LIMIT ->
-                promptChat(player, session, ShopCreatorSession.State.AWAITING_SELL_LIMIT,
-                        "<gold>Type <white>personal sell limit <gold>in chat. <gray>-1 = unlimited.");
+                promptInput(player, session, ShopCreatorSession.State.AWAITING_SELL_LIMIT,
+                        "<gold>Personal sell limit",
+                        "<gray>How many each player can sell per reset. -1 = unlimited.",
+                        String.valueOf(draft.getPersonalSellLimit()));
             case ProductEditorGui.SLOT_RESET_TYPE -> {
                 cycleResetType(draft);
                 refreshProduct(player, session, draft);
@@ -247,134 +266,89 @@ public class ShopCreatorListener implements Listener {
         event.setCancelled(true);
     }
 
-    // ── Chat capture ──────────────────────────────────────────────────────────
+    // ── Text input (pop-up windows) ───────────────────────────────────────────
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        if (!plugin.getShopCreatorManager().hasSession(player)) return;
-
-        ShopCreatorSession session = plugin.getShopCreatorManager().getSession(player);
-        ShopCreatorSession.State state = session.getState();
-
-        if (state == ShopCreatorSession.State.MAIN_EDITOR
-                || state == ShopCreatorSession.State.PRODUCT_EDITOR) return;
-
-        event.setCancelled(true);
-        String input = event.getMessage().trim();
-
-        // Run on main thread
-        plugin.getServer().getScheduler().runTask(plugin, () ->
-                handleChatInput(player, session, state, input));
-    }
-
-    private void handleChatInput(Player player, ShopCreatorSession session,
-                                  ShopCreatorSession.State state, String input) {
+    /**
+     * Applies a value entered in an input window.
+     * Returns an error message (MiniMessage) if the value is invalid, or null once it's applied.
+     */
+    private String applyInput(Player player, ShopCreatorSession session,
+                              ShopCreatorSession.State state, String input) {
         ProductDraft draft = session.getEditingProduct();
+        boolean none = input.isEmpty() || input.equalsIgnoreCase("none");
 
         switch (state) {
             case AWAITING_SHOP_NAME -> {
+                if (input.isEmpty()) return "<red>The shop name can't be empty.";
                 session.setShopName(input);
                 player.sendMessage(MessageUtil.parse("<gold>[LofiShop] <gray>Shop name set to <white>" + input));
-                session.setState(ShopCreatorSession.State.MAIN_EDITOR);
-                new ShopCreatorGui(plugin, player, session).open();
             }
             case AWAITING_SHOP_ID -> {
+                if (input.isEmpty()) return "<red>The shop ID can't be empty.";
                 session.setShopId(input);
                 player.sendMessage(MessageUtil.parse("<gold>[LofiShop] <gray>Shop ID set to <white>" + session.getShopId()));
-                session.setState(ShopCreatorSession.State.MAIN_EDITOR);
-                new ShopCreatorGui(plugin, player, session).open();
             }
             case AWAITING_BUY_PRICE -> {
-                if (draft == null) return;
-                if (input.equalsIgnoreCase("none")) {
+                if (draft == null) return null;
+                if (none) {
                     draft.setBuyPrice(-1);
                 } else {
-                    try { draft.setBuyPrice(Double.parseDouble(input)); }
-                    catch (NumberFormatException e) {
-                        player.sendMessage(MessageUtil.parse("<red>Invalid number. Try again or type 'none'."));
-                        return;
-                    }
+                    Double price = parseDouble(input);
+                    if (price == null) return "<red>That isn't a number. Enter a price, or leave it empty to disable buying.";
+                    draft.setBuyPrice(price);
                 }
-                session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                new ProductEditorGui(plugin, player, session, draft).open();
             }
             case AWAITING_SELL_PRICE -> {
-                if (draft == null) return;
-                if (input.equalsIgnoreCase("none")) {
+                if (draft == null) return null;
+                if (none) {
                     draft.setSellPrice(-1);
                 } else {
-                    try { draft.setSellPrice(Double.parseDouble(input)); }
-                    catch (NumberFormatException e) {
-                        player.sendMessage(MessageUtil.parse("<red>Invalid number. Try again or type 'none'."));
-                        return;
-                    }
+                    Double price = parseDouble(input);
+                    if (price == null) return "<red>That isn't a number. Enter a price, or leave it empty to disable selling.";
+                    draft.setSellPrice(price);
                 }
-                session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                new ProductEditorGui(plugin, player, session, draft).open();
             }
             case AWAITING_AMOUNT -> {
-                if (draft == null) return;
-                try {
-                    draft.setAmount(Integer.parseInt(input));
-                    session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                    new ProductEditorGui(plugin, player, session, draft).open();
-                } catch (NumberFormatException e) {
-                    player.sendMessage(MessageUtil.parse("<red>Invalid number. Enter a whole number like 1, 8, or 64."));
-                }
+                if (draft == null) return null;
+                Integer amount = parseInt(input);
+                if (amount == null) return "<red>Enter a whole number, like 1, 8 or 64.";
+                draft.setAmount(amount);
             }
             case AWAITING_BUY_TIERS -> {
-                if (draft == null) return;
-                if (input.equalsIgnoreCase("none")) {
+                if (draft == null) return null;
+                if (none) {
                     draft.setBuyAmounts(new ArrayList<>());
                 } else {
                     List<Integer> tiers = parseTiers(input);
-                    if (tiers == null) {
-                        player.sendMessage(MessageUtil.parse("<red>Invalid format. Use comma-separated numbers: 1,8,16,64"));
-                        return;
-                    }
+                    if (tiers == null) return "<red>Use whole numbers separated by commas, like 1,8,16,64.";
                     draft.setBuyAmounts(tiers);
                 }
-                session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                new ProductEditorGui(plugin, player, session, draft).open();
             }
             case AWAITING_SELL_TIERS -> {
-                if (draft == null) return;
-                if (input.equalsIgnoreCase("none")) {
+                if (draft == null) return null;
+                if (none) {
                     draft.setSellAmounts(new ArrayList<>());
                 } else {
                     List<Integer> tiers = parseTiers(input);
-                    if (tiers == null) {
-                        player.sendMessage(MessageUtil.parse("<red>Invalid format. Use comma-separated numbers: 1,8,16,64"));
-                        return;
-                    }
+                    if (tiers == null) return "<red>Use whole numbers separated by commas, like 1,8,16,64.";
                     draft.setSellAmounts(tiers);
                 }
-                session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                new ProductEditorGui(plugin, player, session, draft).open();
             }
             case AWAITING_BUY_LIMIT -> {
-                if (draft == null) return;
-                try {
-                    draft.setPersonalBuyLimit(Integer.parseInt(input));
-                    session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                    new ProductEditorGui(plugin, player, session, draft).open();
-                } catch (NumberFormatException e) {
-                    player.sendMessage(MessageUtil.parse("<red>Invalid number. Use -1 for unlimited."));
-                }
+                if (draft == null) return null;
+                Integer limit = parseInt(input);
+                if (limit == null) return "<red>Enter a whole number. Use -1 for unlimited.";
+                draft.setPersonalBuyLimit(limit);
             }
             case AWAITING_SELL_LIMIT -> {
-                if (draft == null) return;
-                try {
-                    draft.setPersonalSellLimit(Integer.parseInt(input));
-                    session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
-                    new ProductEditorGui(plugin, player, session, draft).open();
-                } catch (NumberFormatException e) {
-                    player.sendMessage(MessageUtil.parse("<red>Invalid number. Use -1 for unlimited."));
-                }
+                if (draft == null) return null;
+                Integer limit = parseInt(input);
+                if (limit == null) return "<red>Enter a whole number. Use -1 for unlimited.";
+                draft.setPersonalSellLimit(limit);
             }
             default -> {}
         }
+        return null;
     }
 
     // ── Inventory close ───────────────────────────────────────────────────────
@@ -384,34 +358,73 @@ public class ShopCreatorListener implements Listener {
         if (!(event.getPlayer() instanceof Player)) return;
         Player player = (Player) event.getPlayer();
         if (!plugin.getShopCreatorManager().hasSession(player)) return;
-        // Don't end session on close — player may have typed in chat and will reopen
+        // Don't end session on close — the editor closes while an input window is open
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    private void promptChat(Player player, ShopCreatorSession session,
-                             ShopCreatorSession.State nextState, String prompt) {
-        session.setState(nextState);
+    /** Closes the editor and asks for a value in a pop-up window. */
+    private void promptInput(Player player, ShopCreatorSession session,
+                             ShopCreatorSession.State state, String title, String hint, String initial) {
+        session.setState(state);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             player.closeInventory();
-            player.sendMessage(MessageUtil.parse(prompt));
-            player.sendMessage(MessageUtil.parse("<gray>Type <red>cancel <gray>to abort."));
-            openChatScreen(player);
+            showInput(player, session, state, title, hint, null, initial);
         });
     }
 
-    private void openChatScreen(Player player) {
-        try {
-            Object nmsPlayer = player.getClass().getMethod("getHandle").invoke(player);
-            Object conn = nmsPlayer.getClass().getField("connection").get(nmsPlayer);
-            Class<?> pktClass = Class.forName(
-                    "net.minecraft.network.protocol.game.ClientboundOpenChatScreenPacket");
-            Object pkt = pktClass.getConstructor(String.class).newInstance("");
-            Class<?> packetBase = Class.forName("net.minecraft.network.protocol.Packet");
-            conn.getClass().getMethod("send", packetBase).invoke(conn, pkt);
-        } catch (Exception ignored) {
-            // Paper version doesn't support it; player presses T manually
+    private void showInput(Player player, ShopCreatorSession session, ShopCreatorSession.State state,
+                           String title, String hint, String error, String initial) {
+        InputDialog.show(plugin, player, title, hint, error, initial,
+                value -> {
+                    if (!isStillWaiting(player, session, state)) return;
+                    String problem = applyInput(player, session, state, value);
+                    if (problem != null) {
+                        // Ask again, keeping what they typed and showing what was wrong
+                        showInput(player, session, state, title, hint, problem, value);
+                    } else {
+                        reopenEditor(player, session, state);
+                    }
+                },
+                () -> {
+                    if (!isStillWaiting(player, session, state)) return;
+                    reopenEditor(player, session, state);
+                });
+    }
+
+    /** False if the session ended or moved on while the window was open. */
+    private boolean isStillWaiting(Player player, ShopCreatorSession session, ShopCreatorSession.State state) {
+        return plugin.getShopCreatorManager().getSession(player) == session && session.getState() == state;
+    }
+
+    /** Goes back to whichever editor the value belongs to. */
+    private void reopenEditor(Player player, ShopCreatorSession session, ShopCreatorSession.State state) {
+        boolean shopField = state == ShopCreatorSession.State.AWAITING_SHOP_NAME
+                || state == ShopCreatorSession.State.AWAITING_SHOP_ID;
+        ProductDraft draft = session.getEditingProduct();
+        if (shopField || draft == null) {
+            session.setState(ShopCreatorSession.State.MAIN_EDITOR);
+            new ShopCreatorGui(plugin, player, session).open();
+        } else {
+            session.setState(ShopCreatorSession.State.PRODUCT_EDITOR);
+            new ProductEditorGui(plugin, player, session, draft).open();
         }
+    }
+
+    private static String priceText(double price) {
+        return price < 0 ? "" : BigDecimal.valueOf(price).stripTrailingZeros().toPlainString();
+    }
+
+    private static String tiersText(List<Integer> tiers) {
+        return tiers == null ? "" : tiers.stream().map(String::valueOf).collect(Collectors.joining(","));
+    }
+
+    private static Double parseDouble(String input) {
+        try { return Double.parseDouble(input); } catch (NumberFormatException e) { return null; }
+    }
+
+    private static Integer parseInt(String input) {
+        try { return Integer.parseInt(input); } catch (NumberFormatException e) { return null; }
     }
 
     private void refreshMain(Player player, ShopCreatorSession session) {
