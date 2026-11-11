@@ -46,7 +46,7 @@
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <!-- Update this to match your exact Paper build for 1.21.11 -->
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>26.3.build.244-stable</version>
             <scope>provided</scope>
         </dependency>
 
