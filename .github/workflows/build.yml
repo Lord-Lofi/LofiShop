@@ -23,12 +23,12 @@ jobs:
 
     steps:
       - name: Check out LofiShop
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Check out LofiBox
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: Lord-Lofi/LofiBox
           ref: ${{ env.LOFIBOX_REF }}
