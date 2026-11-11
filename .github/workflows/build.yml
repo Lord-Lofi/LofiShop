@@ -1,0 +1,56 @@
+# Builds LofiShop on every pull request and every push to main.
+# The job name "build" is the required status check (apply-baseline.sh --check build).
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # LofiBox isn't published to a Maven repository, so CI builds and installs it first.
+  # Pinned to a tag so LofiShop's build doesn't change when LofiBox's main branch moves.
+  # Update this together with the LofiBox version in pom.xml.
+  LOFIBOX_REF: "1.5.5"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out LofiShop
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out LofiBox
+        uses: actions/checkout@v4
+        with:
+          repository: Lord-Lofi/LofiBox
+          ref: ${{ env.LOFIBOX_REF }}
+          path: .deps/LofiBox
+          persist-credentials: false
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Install LofiBox into the local Maven repository
+        run: mvn -B -ntp -f .deps/LofiBox/pom.xml install -DskipTests
+
+      - name: Build LofiShop
+        run: mvn -B -ntp package
+
+      - name: Upload the plugin JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: LofiShop
+          path: target/LofiShop-*.jar
+          if-no-files-found: error
